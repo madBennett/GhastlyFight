@@ -19,8 +19,8 @@ public class PlayerBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //move the player based on user input
         movement.Set(InputManager.movement.x, InputManager.movement.y);
-
         rigidBody.velocity = movement * speed;
     }
 }
