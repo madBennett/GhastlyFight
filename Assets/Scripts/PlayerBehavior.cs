@@ -1,35 +1,65 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerBehavior : MonoBehaviour
 {
     //Movement
-    private InputAction moveAction;
-    [SerializeField] private PlayerInput playerInput;
-    [SerializeField] private float speed = 5f;
+    [SerializeField] private float normSpeed = 5f;
+    [SerializeField] private float dashSpeed = 10f;
+    private float currSpeed;
+
+    [SerializeField] private Rigidbody2D rigidBody;
+
     private Vector2 movement;
 
-    public Rigidbody2D rigidBody;
+    private float lastDashTime;
+    [SerializeField] private float dashCooldDown = 5f;
+    [SerializeField] private float dashTime = 0.1f;
 
-    private void Awake()
-    {
-        moveAction = playerInput.actions["Move"];
-    }
+    private bool isDashing = false;
+
+    //for damage
+    private bool isVulenerable = true;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        currSpeed = normSpeed;
+        lastDashTime = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
         //move the player based on user input
-        movement = moveAction.ReadValue<Vector2>();
-        //movement.Set(InputManager.movement.x, InputManager.movement.y);
-        rigidBody.velocity = movement * speed;
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
+        movement.Normalize();
+
+        rigidBody.velocity = movement * currSpeed;
+
+        //dash
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            if ((Time.time - lastDashTime) >= dashCooldDown)
+            {
+                isDashing = true;
+                currSpeed = dashSpeed;
+                lastDashTime = Time.time;
+                isVulenerable = false;
+            }
+        }
+
+        if (isDashing)
+        {
+            if ((Time.time - lastDashTime) >= dashTime)
+            {
+                isDashing = false;
+                currSpeed = normSpeed;
+                isVulenerable = true;
+            }
+        }
     }
 }
