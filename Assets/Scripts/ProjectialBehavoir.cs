@@ -1,0 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ProjectialBehavoir : MonoBehaviour
+{
+    public float speed = 3f;
+    // Update is called once per frame
+    void Update()
+    {
+        transform.position += transform.up * Time.deltaTime * speed;
+    }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //
+        Destroy(gameObject);
+    }
+}
