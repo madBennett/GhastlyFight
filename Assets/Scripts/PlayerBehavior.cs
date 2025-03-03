@@ -22,12 +22,22 @@ public class PlayerBehavior : MonoBehaviour
     //for damage
     private bool isVulenerable = true;
 
+    //health
+    public float curHealth;
+    public float maxHealth = 100f;
+    public ValueBar healthBar;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        //set speed and dash time
         currSpeed = normSpeed;
         lastDashTime = Time.time;
+
+        //set health
+        curHealth = maxHealth;
+        healthBar.setMaxValue(maxHealth);
     }
 
     // Update is called once per frame
@@ -60,6 +70,18 @@ public class PlayerBehavior : MonoBehaviour
                 currSpeed = normSpeed;
                 isVulenerable = true;
             }
+        }
+        isHit(1);
+    }
+
+    public void isHit(float value) 
+    {
+        //
+
+        if (isVulenerable)
+        {
+            curHealth -= value;
+            healthBar.setValue(curHealth);
         }
     }
 }
