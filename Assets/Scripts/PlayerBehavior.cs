@@ -71,7 +71,18 @@ public class PlayerBehavior : MonoBehaviour
                 isVulenerable = true;
             }
         }
-        isHit(1);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Attack();
+        }
+    }
+
+    public void Attack()
+    {
+        //
+
+        Debug.Log("Attack");
     }
 
     public void isHit(float value) 
