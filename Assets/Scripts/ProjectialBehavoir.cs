@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ProjectialBehavoir : MonoBehaviour
 {
-    public float speed = 3f;
+    public float speed = 5f;
+    public float damageAmount = 5f;
     // Update is called once per frame
     void Update()
     {

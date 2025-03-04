@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 7750071933719903850}
   m_Layer: 0
   m_Name: Projectial
-  m_TagString: Untagged
+  m_TagString: Projectial
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf6d3f5b459330448db208f76524a37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 5
 --- !u!50 &7750071933719903850
 Rigidbody2D:
   serializedVersion: 4

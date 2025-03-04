@@ -21,6 +21,7 @@ public class PlayerBehavior : MonoBehaviour
 
     //for damage
     private bool isVulenerable = true;
+    [SerializeField] private float damgeAmount = 5f;
 
     //health
     public float curHealth;
@@ -30,9 +31,6 @@ public class PlayerBehavior : MonoBehaviour
     //attacking
     public ProjectialBehavoir projectial;
     public Transform launchOffset;
-    private Quaternion lookRotation;
-    private Vector3 direction;
-    Vector3 mousePosition;
 
 
     // Start is called before the first frame update
@@ -95,31 +93,37 @@ public class PlayerBehavior : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            mousePosition = Input.mousePosition;
-
-            Attack(mousePosition);
+            Attack();
         }
     }
 
-    public void Attack(Vector3 mousePosition)
+    public void Attack()
     {
         //
-
         Instantiate(projectial, launchOffset.position, launchOffset.rotation);
-
-        Debug.Log("Attack");
     }
 
     public void Damage(float value) 
     {
         //
 
-        if (isVulenerable)
+        
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //
+        if (collision.gameObject.tag == "Projectial")
         {
-            curHealth -= value;
-            healthBar.setValue(curHealth);
+            //
+            if (isVulenerable)
+            {
+                curHealth -= damgeAmount;
+                healthBar.setValue(curHealth);
+            }
         }
     }
+
 }
