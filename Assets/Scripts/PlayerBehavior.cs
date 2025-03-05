@@ -105,11 +105,15 @@ public class PlayerBehavior : MonoBehaviour
         Instantiate(projectial, launchOffset.position, launchOffset.rotation);
     }
 
-    public void Damage(float value) 
+    public void applyDamage(float value) 
     {
         //
+        if (isVulenerable)
+        {
+            curHealth -= value;
+            healthBar.setValue(curHealth);
+        }
 
-        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -118,11 +122,7 @@ public class PlayerBehavior : MonoBehaviour
         if (collision.gameObject.tag == "Projectial")
         {
             //
-            if (isVulenerable)
-            {
-                curHealth -= damgeAmount;
-                healthBar.setValue(curHealth);
-            }
+            
         }
     }
 

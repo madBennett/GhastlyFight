@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3125998517625979940}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,6 +53,7 @@ MonoBehaviour:
   rigidBody: {fileID: 1328074772819938694}
   dashCooldDown: 5
   dashTime: 0.1
+  damgeAmount: 5
   curHealth: 0
   maxHealth: 100
   healthBar: {fileID: 0}

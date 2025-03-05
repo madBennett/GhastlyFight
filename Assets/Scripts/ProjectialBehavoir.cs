@@ -16,6 +16,10 @@ public class ProjectialBehavoir : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //
+        if ((collision.gameObject.tag == "Player") || (collision.gameObject.tag == "Enemy"))
+        {
+            collision.gameObject.SendMessage("applyDamage", damageAmount);
+        }
         Destroy(gameObject);
     }
 }
