@@ -21,7 +21,6 @@ public class PlayerBehavior : MonoBehaviour
 
     //for damage
     private bool isVulenerable = true;
-    [SerializeField] private float damgeAmount = 5f;
 
     //health
     public float curHealth;
@@ -31,6 +30,7 @@ public class PlayerBehavior : MonoBehaviour
     //attacking
     public ProjectialBehavoir projectial;
     public Transform launchOffset;
+    [SerializeField] private float damageAmount = 5f;
 
 
     // Start is called before the first frame update
@@ -102,7 +102,8 @@ public class PlayerBehavior : MonoBehaviour
     public void Attack()
     {
         //
-        Instantiate(projectial, launchOffset.position, launchOffset.rotation);
+        ProjectialBehavoir playerProjectial = Instantiate(projectial, launchOffset.position, launchOffset.rotation);
+        playerProjectial.damageAmount = damageAmount;
     }
 
     public void applyDamage(float value) 
