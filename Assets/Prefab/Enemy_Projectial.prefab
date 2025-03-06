@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.49056602, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 7326590560004912086}
   - component: {fileID: 7750071933719903850}
   m_Layer: 0
-  m_Name: Projectial
+  m_Name: Enemy_Projectial
   m_TagString: Projectial
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,7 +149,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 7
   damageAmount: 5
-  isFromPlayer: 0
 --- !u!50 &7750071933719903850
 Rigidbody2D:
   serializedVersion: 4
