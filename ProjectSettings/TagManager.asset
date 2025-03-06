@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Projectial
   - Enemy
+  - Area
   layers:
   - Default
   - TransparentFX

@@ -24,6 +24,8 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] private AreaBehaviour curLocation;
     private float lastMoveTime;
     [SerializeField] private float moveCoolDown = 5f;
+    private float coolDownReduction = 1f;
+    [SerializeField] private float maxRedution = 0.3f;
 
     // Start is called before the first frame update
     void Start()
@@ -42,12 +44,13 @@ public class EnemyBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((Time.time - (lastMoveTime*(curHealth/maxHealth))) >= moveCoolDown)
+        coolDownReduction = ((curHealth / maxHealth) > maxRedution) ? (curHealth / maxHealth) : maxRedution;
+        if ((Time.time - lastMoveTime) >= moveCoolDown * coolDownReduction)
         {
             Move();
             lastMoveTime = Time.time;
         }
-        if ((Time.time - lastAttackTime) >= attackCoolDown)
+        if ((Time.time - lastAttackTime) >= attackCoolDown * coolDownReduction)
         {
             Attack();
             lastAttackTime = Time.time;
@@ -105,5 +108,12 @@ public class EnemyBehavior : MonoBehaviour
         //set new loc marker
         curLocation.isEnemy = true;
         //play sound  on move
+    }
+
+    public void applyDamage(int value)
+    {
+        //
+        curHealth -= value;
+        healthBar.setValue(curHealth);
     }
 }

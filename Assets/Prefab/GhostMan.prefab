@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5914128730160018162}
   m_Layer: 0
   m_Name: GhostMan
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,10 +50,12 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   healthThreshold: 0.5
   projectial: {fileID: 7326590560004912086, guid: 9b0e3029b0031bc4c8cf7b0bf2f86feb, type: 3}
-  launchOffset: {fileID: 0}
   damageAmount: 5
+  attackCoolDown: 0.25
   balconies: []
   boxes: []
+  curLocation: {fileID: 0}
+  moveCoolDown: 5
 --- !u!212 &5914128730160018162
 SpriteRenderer:
   m_ObjectHideFlags: 0

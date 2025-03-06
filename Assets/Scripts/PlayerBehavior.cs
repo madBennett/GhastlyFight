@@ -114,17 +114,6 @@ public class PlayerBehavior : MonoBehaviour
             curHealth -= value;
             healthBar.setValue(curHealth);
         }
-
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //
-        if (collision.gameObject.tag == "Projectial")
-        {
-            //
-            
-        }
     }
 
 }

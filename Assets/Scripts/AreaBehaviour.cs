@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AreaBehaviour : MonoBehaviour
 {
-    public Collider2D col;
+    [SerializeField] private GameObject enemy;
     public Transform enemyLoc;
     public List<Transform> launchLocs = new List<Transform>();
 
@@ -28,13 +28,13 @@ public class AreaBehaviour : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void applyDamage(float value)
     {
         //
-        if (collision.gameObject.tag == "Projectial")
+        if (isEnemy)
         {
-            //
-
+            enemy.SendMessage("applyDamage", value);
         }
+
     }
 }
