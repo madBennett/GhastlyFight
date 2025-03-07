@@ -8,6 +8,7 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField] private float normSpeed = 5f;
     [SerializeField] private float dashSpeed = 10f;
     private float currSpeed;
+    [SerializeField] private GameObject PlayerObj;
 
     [SerializeField] private Rigidbody2D rigidBody;
 
@@ -60,16 +61,16 @@ public class PlayerBehavior : MonoBehaviour
         //rotate player accordingly
         if (movement.x != 0)
         {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, movement.x * -90));
+            PlayerObj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, movement.x * -90));
         }
 
         if (movement.y == 1)
         {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+            PlayerObj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         }
         else if (movement.y == -1)
         {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
+            PlayerObj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
         }
 
         //dash
