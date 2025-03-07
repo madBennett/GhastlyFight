@@ -92,6 +92,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         //remove marker that enemy is at previous location
         curLocation.isEnemy = false;
+        curLocation.glowObj.SetActive(false);
 
         //Moves the Enemy to a Random Location
         if (curHealth > healthThreshold)
@@ -113,6 +114,7 @@ public class EnemyBehavior : MonoBehaviour
 
         //set new loc marker
         curLocation.isEnemy = true;
+        curLocation.glowObj.SetActive(true);
         //play sound  on move
     }
 

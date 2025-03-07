@@ -7,6 +7,7 @@ public class AreaBehaviour : MonoBehaviour
     [SerializeField] private GameObject enemy;
     public Transform enemyLoc;
     public List<Transform> launchLocs = new List<Transform>();
+    public GameObject glowObj;
 
     public bool isEnemy = false;
 
