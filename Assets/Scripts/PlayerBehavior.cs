@@ -93,9 +93,15 @@ public class PlayerBehavior : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0) && !isDashing)
         {
             Attack();
+        }
+
+        //cheat mode
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            isVulenerable = false;
         }
     }
 
@@ -106,14 +112,35 @@ public class PlayerBehavior : MonoBehaviour
         playerProjectial.damageAmount = damageAmount;
     }
 
-    public void applyDamage(float value) 
+    private void changeHealth(int value)
+    {
+        curHealth += value;
+        healthBar.setValue(curHealth);
+    }
+
+    public void applyDamage(int value) 
     {
         //
         if (isVulenerable)
         {
-            curHealth -= value;
-            healthBar.setValue(curHealth);
+            changeHealth(-1 * value);
         }
     }
 
+    public void applyHeal(int value)
+    {
+        //
+        if (curHealth < maxHealth)
+        {
+            changeHealth(value);
+        }
+    }
+
+    public void Death()
+    {
+        //
+        //play death animation and sound
+        //show game over
+        //Destroy(gameObject);
+    }
 }

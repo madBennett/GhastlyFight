@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class EnemyBehavior : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class EnemyBehavior : MonoBehaviour
     private float coolDownReduction = 1f;
     [SerializeField] private float maxRedution = 0.3f;
 
+    [SerializeField] private TMP_Text healthBarText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,16 +47,19 @@ public class EnemyBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        coolDownReduction = ((curHealth / maxHealth) > maxRedution) ? (curHealth / maxHealth) : maxRedution;
-        if ((Time.time - lastMoveTime) >= moveCoolDown * coolDownReduction)
+        if (curHealth > 0)
         {
-            Move();
-            lastMoveTime = Time.time;
-        }
-        if ((Time.time - lastAttackTime) >= attackCoolDown * coolDownReduction)
-        {
-            Attack();
-            lastAttackTime = Time.time;
+            coolDownReduction = ((curHealth / maxHealth) > maxRedution) ? (curHealth / maxHealth) : maxRedution;
+            if ((Time.time - lastMoveTime) >= moveCoolDown * coolDownReduction)
+            {
+                Move();
+                lastMoveTime = Time.time;
+            }
+            if ((Time.time - lastAttackTime) >= attackCoolDown * coolDownReduction)
+            {
+                Attack();
+                lastAttackTime = Time.time;
+            }
         }
     }
 
@@ -115,5 +121,14 @@ public class EnemyBehavior : MonoBehaviour
         //
         curHealth -= value;
         healthBar.setValue(curHealth);
+    }
+
+    public void Death()
+    {
+        //
+        //play death animation and sound
+        healthBarText.text = "ONLY ONE SURVIVES";
+
+        gameObject.GetComponent<Renderer>().enabled = false;
     }
 }

@@ -53,12 +53,12 @@ MonoBehaviour:
   rigidBody: {fileID: 1328074772819938694}
   dashCooldDown: 5
   dashTime: 0.1
-  damgeAmount: 5
-  curHealth: 0
+  curHealth: 100
   maxHealth: 100
   healthBar: {fileID: 0}
   projectial: {fileID: 0}
   launchOffset: {fileID: 0}
+  damageAmount: 5
 --- !u!212 &1328074772819938689
 SpriteRenderer:
   m_ObjectHideFlags: 0
