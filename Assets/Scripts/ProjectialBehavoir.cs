@@ -1,13 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
+using UnityEngine.Assertions;
 
-public class ProjectialBehavoir : MonoBehaviour
+public class ProjectialBehavoir : NetworkBehaviour
 {
     public float speed = 5f;
     public float damageAmount = 5f;
-    // Update is called once per frame
-    void Update()
+
+    public static int numProjectials = 0;
+
+    void Start()
+    {
+        numProjectials += 1;
+        Debug.Log("Total Projectials: " + numProjectials);
+    }
+
+        // Update is called once per frame
+        void Update()
     {
         transform.position += transform.up * Time.deltaTime * speed;
     }
@@ -16,10 +27,8 @@ public class ProjectialBehavoir : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //
-        if ((collision.gameObject.tag == "Player") || (collision.gameObject.tag == "Area"))
-        {
-            collision.gameObject.SendMessage("applyDamage", damageAmount);
-        }
+
+        numProjectials -= 1;
         Destroy(gameObject);
     }
 }

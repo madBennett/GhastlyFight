@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.Netcode;
+using UnityEngine.Assertions;
 
-public class EnemyBehavior : MonoBehaviour
+public class EnemyBehavior : NetworkBehaviour
 {
     //health
     public float curHealth;
@@ -60,6 +62,10 @@ public class EnemyBehavior : MonoBehaviour
                 Attack();
                 lastAttackTime = Time.time;
             }
+        }
+        else
+        {
+            Death();
         }
     }
 
@@ -131,6 +137,12 @@ public class EnemyBehavior : MonoBehaviour
         //play death animation and sound
         healthBarText.text = "ONLY ONE SURVIVES";
 
-        gameObject.GetComponent<Renderer>().enabled = false;
+        if (NetworkObject.IsSpawned == false)
+        {
+            return;
+        }
+        Assert.IsTrue(NetworkManager.IsServer);
+
+        NetworkObject.Despawn(true);
     }
 }

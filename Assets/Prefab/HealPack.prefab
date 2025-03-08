@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7349509410412348982}
   - component: {fileID: 7349509410412348983}
   - component: {fileID: 7349509410412348980}
+  - component: {fileID: 8457954473225029333}
   - component: {fileID: 7349509410412348981}
   m_Layer: 0
   m_Name: HealPack
@@ -102,6 +103,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.16
+--- !u!114 &8457954473225029333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7349509410412349386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &7349509410412348981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,3 +137,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healAmount: 10
+  despawnCooldDown: 2
+  spawnTime: 0

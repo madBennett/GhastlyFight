@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class HealPackBehavior : MonoBehaviour
+public class HealPackBehavior : NetworkBehaviour
 {
     [SerializeField] private float healAmount = 10f;
     [SerializeField] private float despawnCooldDown = 2f;

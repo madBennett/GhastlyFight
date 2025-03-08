@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class AreaBehaviour : MonoBehaviour
+public class AreaBehaviour : NetworkBehaviour
 {
     [SerializeField] private GameObject enemy;
     public Transform enemyLoc;

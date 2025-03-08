@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     [SerializeField] private List<PlayerBehavior> Players = new List<PlayerBehavior>();
     [SerializeField] private EnemyBehavior Enemy;
@@ -23,19 +24,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach (PlayerBehavior Player in Players)
-        {
-            if (Player.curHealth <= 0)
-            {
-                Player.Death();
-            }
-        }
-
-        if (Enemy.curHealth <= 0)
-        {
-            Enemy.Death();
-        }
-
         if ((Time.time - lastHealSpawnTime) >= healSpawnCooldDown)
         {
             randLoc.x = Random.Range(xRange.x, xRange.y);
