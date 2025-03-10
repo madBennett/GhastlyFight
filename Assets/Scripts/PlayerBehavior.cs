@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.Assertions;
+using System;
 
 public class PlayerBehavior : NetworkBehaviour
 {
@@ -35,7 +36,7 @@ public class PlayerBehavior : NetworkBehaviour
     //attacking
     public ProjectialBehavoir projectial;
     public Transform launchOffset;
-    [SerializeField] private float damageAmount = 5f;
+    [SerializeField] private int damageAmount = 5;
     private float lastAttackTime;
     [SerializeField] private float attackCooldDown = 0.5f;
 
@@ -52,7 +53,12 @@ public class PlayerBehavior : NetworkBehaviour
         //set health
         curHealth.Value = maxHealth;
         healthBar.setMaxValue(maxHealth);
-        curHealth.OnValueChanged += (float previousValue, float newValue) => { healthBar.setValue(newValue); };
+        curHealth.OnValueChanged += HealthChanged;
+    }
+
+    private void HealthChanged(float previousValue, float newValue)
+    {
+        healthBar.setValue(newValue);
     }
 
     // Update is called once per frame
@@ -136,7 +142,7 @@ public class PlayerBehavior : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void AttackServerRPC(Vector3 pos,Quaternion rot, float damageAmount)
+    public void AttackServerRPC(Vector3 pos,Quaternion rot, int damageAmount)
     {
         //
         ProjectialBehavoir playerProjectial = Instantiate(projectial, pos, rot);
@@ -167,7 +173,21 @@ public class PlayerBehavior : NetworkBehaviour
             changeHealth(value);
         }
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //
 
+        if (!IsServer)
+        {
+            return;
+        }
+
+        if (collision.gameObject.GetComponent<ProjectialBehavoir>())
+        {
+            ProjectialBehavoir projectial = collision.gameObject.GetComponent<ProjectialBehavoir>();
+            applyDamage(projectial.damageAmount);
+        }
+    }
     public void Death()
     {
         //

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
 
-public class ValueBar : NetworkBehaviour
+public class ValueBar : MonoBehaviour
 {
     public Slider slider;
     public Gradient gradient;

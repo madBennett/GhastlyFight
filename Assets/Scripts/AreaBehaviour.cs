@@ -29,8 +29,23 @@ public class AreaBehaviour : NetworkBehaviour
             }
         }
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //
 
-    public void applyDamage(float value)
+        if (!IsServer)
+        {
+            return;
+        }
+
+        if (collision.gameObject.GetComponent<ProjectialBehavoir>())
+        {
+            ProjectialBehavoir projectial = collision.gameObject.GetComponent<ProjectialBehavoir>();
+            applyDamage(projectial.damageAmount);
+        }
+    }
+
+    public void applyDamage(int value)
     {
         //
         if (isEnemy)

@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 public class ProjectialBehavoir : NetworkBehaviour
 {
     public float speed = 5f;
-    public float damageAmount = 5f;
+    public int damageAmount = 5;
 
     public static int numProjectials = 0;
 
@@ -24,10 +24,12 @@ public class ProjectialBehavoir : NetworkBehaviour
     {
         //
 
-        if (!NetworkObject.IsSpawned)
+        if ((!IsServer) || (NetworkObject.IsSpawned == false))
         {
             return;
         }
+
+        //collision.gameObject.SendMessage("applyDamage", damageAmount);
 
         numProjectials -= 1;
         NetworkObject.Despawn(true);

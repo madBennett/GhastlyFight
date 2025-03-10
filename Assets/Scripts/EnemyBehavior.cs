@@ -16,7 +16,7 @@ public class EnemyBehavior : NetworkBehaviour
 
     //attacking
     public ProjectialBehavoir projectial;
-    [SerializeField] private float damageAmount = 10f;
+    [SerializeField] private int damageAmount = 10;
     private float lastAttackTime;
     [SerializeField] private float attackCoolDown = 0.25f;
 
@@ -87,7 +87,7 @@ public class EnemyBehavior : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void LaunchProjectileServerRPC(Vector3 pos, Quaternion rot, float damageAmount, int damageUpAmount)
+    private void LaunchProjectileServerRPC(Vector3 pos, Quaternion rot, int damageAmount, int damageUpAmount)
     {
         ProjectialBehavoir enemyProjectial = Instantiate(projectial, pos, rot);
 
