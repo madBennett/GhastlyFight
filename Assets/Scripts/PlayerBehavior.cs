@@ -43,6 +43,11 @@ public class PlayerBehavior : NetworkBehaviour
     private float lastAttackTime;
     [SerializeField] private float attackCooldDown = 0.5f;
 
+    //Audio
+    [SerializeField] private AudioClip HurtClip;
+    [SerializeField] private AudioClip AttackClip;
+    [SerializeField] private AudioClip HealClip;
+
 
     // Start is called before the first frame update
     public override void OnNetworkSpawn()

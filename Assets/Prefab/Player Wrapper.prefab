@@ -92,6 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8dd0d5e37403f4d9c2d48baccd747b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerId: 0
   healthBarText: {fileID: 23185224136290531}
   normSpeed: 5
   dashSpeed: 10
@@ -107,6 +108,9 @@ MonoBehaviour:
   launchOffset: {fileID: 7415863785190031701}
   damageAmount: 5
   attackCooldDown: 0.1
+  HurtClip: {fileID: 8300000, guid: f6f66656c562c644bb2d9694a1abf06a, type: 3}
+  AttackClip: {fileID: 0}
+  HealClip: {fileID: 0}
 --- !u!58 &5048520249989367921
 CircleCollider2D:
   m_ObjectHideFlags: 0

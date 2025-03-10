@@ -33,6 +33,12 @@ public class EnemyBehavior : NetworkBehaviour
 
     [SerializeField] private TMP_Text healthBarText;
 
+    //Audio
+    [SerializeField] private AudioClip HurtClip;
+    [SerializeField] private AudioClip AttackClip;
+    [SerializeField] private AudioClip DeathClip;
+    [SerializeField] private AudioClip MoveClip;
+
     // Start is called before the first frame update
     void Start()
     {
