@@ -29,7 +29,6 @@ public class ProjectialBehavoir : NetworkBehaviour
             return;
         }
 
-        //collision.gameObject.SendMessage("applyDamage", damageAmount);
 
         numProjectials -= 1;
         NetworkObject.Despawn(true);
