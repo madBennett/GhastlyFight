@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.Assertions;
-using System;
 
 public class PlayerBehavior : NetworkBehaviour
 {
@@ -45,6 +44,11 @@ public class PlayerBehavior : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         numPlayers += 1;
+
+        //Change color to make distinct between players
+        Vector3 newColor = new Vector3(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
+        SpriteRenderer sprite = PlayerObj.GetComponent<SpriteRenderer>();
+        sprite.color = new Color(newColor.x, newColor.y, newColor.z, 255);
 
         //set speed and dash time
         currSpeed = normSpeed;
