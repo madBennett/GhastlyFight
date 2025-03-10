@@ -5,9 +5,6 @@ using Unity.Netcode;
 
 public class GameManager : NetworkBehaviour
 {
-    [SerializeField] private List<PlayerBehavior> Players = new List<PlayerBehavior>();
-    [SerializeField] private EnemyBehavior Enemy;
-
     [SerializeField] private float healSpawnCooldDown = 5f;
     [SerializeField] private float lastHealSpawnTime;
     public GameObject healPack;
@@ -28,9 +25,17 @@ public class GameManager : NetworkBehaviour
         {
             randLoc.x = Random.Range(xRange.x, xRange.y);
             randLoc.y = Random.Range(yRange.x, yRange.y);
-            //GameObject healpack = Instantiate(healPack, randLoc, transform.rotation);
-            //healPack.GetComponent<NetworkObject>().Spawn(true);
+            SpawnHealServerRPC(randLoc, transform.rotation);
             lastHealSpawnTime = Time.time;
         }
     }
+
+    [ServerRpc]
+    public void SpawnHealServerRPC(Vector3 pos, Quaternion rot)
+    {
+        //
+        GameObject spawnedHealPack = Instantiate(healPack, pos, rot);
+        spawnedHealPack.GetComponent<NetworkObject>().Spawn(true);
+    }
+
 }

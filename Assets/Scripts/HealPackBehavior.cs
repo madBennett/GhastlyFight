@@ -18,7 +18,7 @@ public class HealPackBehavior : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!NetworkManager.Singleton.IsServer || !NetworkObject.IsSpawned)
+        if (!NetworkObject.IsSpawned)
         {
             return;
         }
@@ -33,7 +33,7 @@ public class HealPackBehavior : NetworkBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //
-        if (!NetworkManager.Singleton.IsServer || !NetworkObject.IsSpawned)
+        if (!NetworkObject.IsSpawned)
         {
             return;
         }
@@ -41,7 +41,7 @@ public class HealPackBehavior : NetworkBehaviour
         if ((collision.gameObject.tag == "Player"))
         {
             collision.gameObject.SendMessage("applyHeal", healAmount);
-            //NetworkObject.Despawn(true);
+            NetworkObject.Despawn(true);
             Destroy(gameObject);
         }
     }
