@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.Assertions;
+using TMPro;
 
 public class PlayerBehavior : NetworkBehaviour
 {
     public static int numPlayers = 0;
+
+    private ulong PlayerId = 0;
+    [SerializeField] private TMP_Text healthBarText;
 
     //Movement
     [SerializeField] private float normSpeed = 5f;
@@ -44,6 +48,9 @@ public class PlayerBehavior : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         numPlayers += 1;
+
+        PlayerId = OwnerClientId;
+        healthBarText.text = "Player: " + (PlayerId + 1);
 
         //Change color to make distinct between players
         Vector3 newColor = new Vector3(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
