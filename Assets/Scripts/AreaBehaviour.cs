@@ -38,7 +38,7 @@ public class AreaBehaviour : NetworkBehaviour
             return;
         }
 
-        if (collision.gameObject.GetComponent<ProjectialBehavoir>())
+        if (collision.gameObject.GetComponent<ProjectialBehavoir>() && !(collision.gameObject.GetComponent<NetworkBehaviour>().OwnerClientId == 0))
         {
             ProjectialBehavoir projectial = collision.gameObject.GetComponent<ProjectialBehavoir>();
             applyDamage(projectial.damageAmount);
