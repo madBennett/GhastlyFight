@@ -105,6 +105,7 @@ MonoBehaviour:
   projectial: {fileID: 7326590560004912086, guid: 9b0e3029b0031bc4c8cf7b0bf2f86feb, type: 3}
   launchOffset: {fileID: 7415863785190031701}
   damageAmount: 5
+  attackCooldDown: 0.1
 --- !u!58 &5048520249989367921
 CircleCollider2D:
   m_ObjectHideFlags: 0

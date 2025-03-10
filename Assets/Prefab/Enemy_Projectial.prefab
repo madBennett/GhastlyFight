@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7326590560004912086}
   - component: {fileID: 7750071933719903850}
   - component: {fileID: 8238415783570125891}
+  - component: {fileID: 5941099766204281940}
   m_Layer: 0
   m_Name: Enemy_Projectial
   m_TagString: Projectial
@@ -86,8 +87,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf6d3f5b459330448db208f76524a37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
+  speed: 10
   damageAmount: 5
+  rigidBody: {fileID: 7750071933719903850}
 --- !u!50 &7750071933719903850
 Rigidbody2D:
   serializedVersion: 4
@@ -140,6 +142,18 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &5941099766204281940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239769490446776786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7180311634157936622
 GameObject:
   m_ObjectHideFlags: 0

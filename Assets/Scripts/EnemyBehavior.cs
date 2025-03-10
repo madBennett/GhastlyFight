@@ -59,7 +59,7 @@ public class EnemyBehavior : NetworkBehaviour
             }
             if ((Time.time - lastAttackTime) >= attackCoolDown * coolDownReduction)
             {
-                //Attack();
+                Attack();
                 lastAttackTime = Time.time;
             }
         }
@@ -82,18 +82,20 @@ public class EnemyBehavior : NetworkBehaviour
 
         foreach (Transform launch in curLocation.launchLocs)
         {
-            LaunchProjectile(launch, damageUpAmount);
+            LaunchProjectileServerRPC(launch.position, launch.rotation, damageAmount, damageUpAmount);
         }
     }
 
-    private void LaunchProjectile(Transform launchOffset, int damageUpAmount)
+    [ServerRpc]
+    private void LaunchProjectileServerRPC(Vector3 pos, Quaternion rot, float damageAmount, int damageUpAmount)
     {
-        ProjectialBehavoir enemyProjectial = Instantiate(projectial, launchOffset.position, launchOffset.rotation);
+        ProjectialBehavoir enemyProjectial = Instantiate(projectial, pos, rot);
+
+        enemyProjectial.GetComponent<NetworkObject>().Spawn(true);
 
         enemyProjectial.damageAmount = damageAmount * damageUpAmount;
         enemyProjectial.speed *= damageUpAmount;
 
-        //enemyProjectial.GetComponent<NetworkObject>().Spawn(true);
     }
 
     public void Move()

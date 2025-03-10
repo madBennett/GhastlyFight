@@ -19,7 +19,7 @@ public class PlayerBehavior : NetworkBehaviour
     private Vector2 movement;
 
     private float lastDashTime;
-    [SerializeField] private float dashCooldDown = 5f;
+    [SerializeField] private float dashCooldDown = .15f;
     [SerializeField] private float dashTime = 0.1f;
 
     private bool isDashing = false;
@@ -36,6 +36,8 @@ public class PlayerBehavior : NetworkBehaviour
     public ProjectialBehavoir projectial;
     public Transform launchOffset;
     [SerializeField] private float damageAmount = 5f;
+    private float lastAttackTime;
+    [SerializeField] private float attackCooldDown = 0.5f;
 
 
     // Start is called before the first frame update
@@ -66,10 +68,6 @@ public class PlayerBehavior : NetworkBehaviour
             movement.x = Input.GetAxisRaw("Horizontal");
             movement.y = Input.GetAxisRaw("Vertical");
 
-            MoveServerRPC(movement, currSpeed);
-
-            
-
             //dash
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
@@ -92,9 +90,12 @@ public class PlayerBehavior : NetworkBehaviour
                 }
             }
 
-            if (Input.GetMouseButtonDown(0) && !isDashing)
-            {
+            MoveServerRPC(movement, currSpeed);
+
+            if ((Input.GetMouseButtonDown(0)) && (!isDashing) && ((Time.time - lastAttackTime) >= attackCooldDown))
+                {
                 AttackServerRPC(launchOffset.position, launchOffset.rotation, damageAmount);
+                lastAttackTime = Time.time;
             }
 
             //cheat mode

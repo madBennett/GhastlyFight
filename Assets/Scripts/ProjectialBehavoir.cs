@@ -16,22 +16,15 @@ public class ProjectialBehavoir : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         numProjectials += 1;
-        Debug.Log("Total Projectials: " + numProjectials);
+        rigidBody = GetComponent<Rigidbody2D>();
         rigidBody.velocity = this.transform.up * speed;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //transform.position += transform.up * Time.deltaTime * speed;
-    }
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //
 
-        if (!NetworkManager.Singleton.IsServer || !NetworkObject.IsSpawned)
+        if (!NetworkObject.IsSpawned)
         {
             return;
         }
