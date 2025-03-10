@@ -8,7 +8,7 @@ using UnityEngine.Assertions;
 public class EnemyBehavior : NetworkBehaviour
 {
     //health
-    public float curHealth;
+    [SerializeField] private NetworkVariable<float> curHealth = new NetworkVariable<float>(0);
     public float maxHealth = 1000f;
     public ValueBar healthBar;
     
@@ -25,6 +25,7 @@ public class EnemyBehavior : NetworkBehaviour
     [SerializeField] private List<AreaBehaviour> boxes = new List<AreaBehaviour>();
 
     [SerializeField] private AreaBehaviour curLocation;
+    [SerializeField] private NetworkVariable<int> randIndex = new NetworkVariable<int>(0);
     private float lastMoveTime;
     [SerializeField] private float moveCoolDown = 5f;
     private float coolDownReduction = 1f;
@@ -36,8 +37,9 @@ public class EnemyBehavior : NetworkBehaviour
     void Start()
     {
         //set health
-        curHealth = maxHealth;
+        curHealth.Value = maxHealth;
         healthBar.setMaxValue(maxHealth);
+        curHealth.OnValueChanged += HealthChanged;
 
         //set times for cooldown
         lastAttackTime = Time.time;
@@ -45,13 +47,18 @@ public class EnemyBehavior : NetworkBehaviour
 
         Move();
     }
+    
+    private void HealthChanged(float previousValue, float newValue)
+    {
+        healthBar.setValue(newValue);
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (curHealth > 0)
+        if (curHealth.Value > 0)
         {
-            coolDownReduction = ((curHealth / maxHealth) > maxRedution) ? (curHealth / maxHealth) : maxRedution;
+            coolDownReduction = ((curHealth.Value / maxHealth) > maxRedution) ? (curHealth.Value / maxHealth) : maxRedution;
             if ((Time.time - lastMoveTime) >= moveCoolDown * coolDownReduction)
             {
                 Move();
@@ -75,7 +82,7 @@ public class EnemyBehavior : NetworkBehaviour
         int damageUpAmount = 1;
 
         //on half health increase damage and speed of projectials
-        if (curHealth <= healthThreshold)
+        if (curHealth.Value <= healthThreshold)
         {
             damageUpAmount = 2;
         }
@@ -105,22 +112,20 @@ public class EnemyBehavior : NetworkBehaviour
         curLocation.glowObj.SetActive(false);
 
         //Moves the Enemy to a Random Location
-        if (curHealth > healthThreshold)
+        if (curHealth.Value > healthThreshold)
         {
             //move to the normal loc
-            int randIndex = Random.Range(0, balconies.Capacity);
-            curLocation = balconies[randIndex];
+            randIndex.Value = Random.Range(0, balconies.Capacity);
+            curLocation = balconies[randIndex.Value];
         }
         else
         {
             //move to the specail loc
-            int randIndex = Random.Range(0, boxes.Capacity);
-            curLocation = boxes[randIndex];
+            randIndex.Value = Random.Range(0, boxes.Capacity);
+            curLocation = boxes[randIndex.Value];
         }
 
-        //set new location
-        transform.position = curLocation.enemyLoc.position;
-        transform.rotation = curLocation.enemyLoc.rotation;
+        SetNewPosServerRPC(curLocation.enemyLoc.position, curLocation.enemyLoc.rotation);
 
         //set new loc marker
         curLocation.isEnemy = true;
@@ -128,11 +133,18 @@ public class EnemyBehavior : NetworkBehaviour
         //play sound  on move
     }
 
+    [ServerRpc]
+    private void SetNewPosServerRPC(Vector3 pos, Quaternion rot)
+    {
+        //set new location
+        transform.position = pos;
+        transform.rotation = rot;
+    }
+
     public void applyDamage(int value)
     {
         //
-        curHealth -= value;
-        healthBar.setValue(curHealth);
+        curHealth.Value -= value;
     }
 
     public void Death()
