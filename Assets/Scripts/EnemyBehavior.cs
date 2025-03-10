@@ -98,10 +98,11 @@ public class EnemyBehavior : NetworkBehaviour
     {
         ProjectialBehavoir enemyProjectial = Instantiate(projectial, pos, rot);
 
-        enemyProjectial.GetComponent<NetworkObject>().Spawn(true);
+        enemyProjectial.GetComponent<NetworkObject>().SpawnWithOwnership(0);
 
         enemyProjectial.damageAmount = damageAmount * damageUpAmount;
         enemyProjectial.speed *= damageUpAmount;
+        enemyProjectial.ownerId = 0;
 
     }
 

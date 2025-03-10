@@ -12,6 +12,7 @@ public class ProjectialBehavoir : NetworkBehaviour
     public static int numProjectials = 0;
 
     [SerializeField] private Rigidbody2D rigidBody;
+    public ulong ownerId = 0;
 
     public override void OnNetworkSpawn()
     {
@@ -29,6 +30,13 @@ public class ProjectialBehavoir : NetworkBehaviour
             return;
         }
 
+        if (collision.gameObject.GetComponent<PlayerBehavior>())
+        {
+            if (collision.gameObject.GetComponent<PlayerBehavior>().PlayerId == ownerId)
+            {
+                return;
+            }
+        }
 
         numProjectials -= 1;
         NetworkObject.Despawn(true);

@@ -9,7 +9,7 @@ public class PlayerBehavior : NetworkBehaviour
 {
     public static int numPlayers = 0;
 
-    private ulong PlayerId = 0;
+    public ulong PlayerId = 0;
     [SerializeField] private TMP_Text healthBarText;
 
     //Movement
@@ -49,8 +49,8 @@ public class PlayerBehavior : NetworkBehaviour
     {
         numPlayers += 1;
 
-        PlayerId = OwnerClientId;
-        healthBarText.text = "Player: " + (PlayerId + 1);
+        PlayerId = OwnerClientId + 1;
+        healthBarText.text = "Player: " + PlayerId;
 
         //Change color to make distinct between players
         Vector3 newColor = new Vector3(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
@@ -157,8 +157,9 @@ public class PlayerBehavior : NetworkBehaviour
     {
         //
         ProjectialBehavoir playerProjectial = Instantiate(projectial, pos, rot);
-        playerProjectial.GetComponent<NetworkObject>().Spawn(true);
+        playerProjectial.GetComponent<NetworkObject>().SpawnWithOwnership(PlayerId);
         playerProjectial.damageAmount = damageAmount;
+        playerProjectial.ownerId = PlayerId;
     }
 
     private void changeHealth(int value)
@@ -193,7 +194,7 @@ public class PlayerBehavior : NetworkBehaviour
             return;
         }
 
-        if (collision.gameObject.GetComponent<ProjectialBehavoir>())
+        if (collision.gameObject.GetComponent<ProjectialBehavoir>() && !(collision.gameObject.GetComponent<NetworkBehaviour>().OwnerClientId == PlayerId))
         {
             ProjectialBehavoir projectial = collision.gameObject.GetComponent<ProjectialBehavoir>();
             applyDamage(projectial.damageAmount);
