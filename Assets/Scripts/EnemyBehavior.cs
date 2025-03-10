@@ -59,7 +59,7 @@ public class EnemyBehavior : NetworkBehaviour
             }
             if ((Time.time - lastAttackTime) >= attackCoolDown * coolDownReduction)
             {
-                Attack();
+                //Attack();
                 lastAttackTime = Time.time;
             }
         }
@@ -92,6 +92,8 @@ public class EnemyBehavior : NetworkBehaviour
 
         enemyProjectial.damageAmount = damageAmount * damageUpAmount;
         enemyProjectial.speed *= damageUpAmount;
+
+        //enemyProjectial.GetComponent<NetworkObject>().Spawn(true);
     }
 
     public void Move()

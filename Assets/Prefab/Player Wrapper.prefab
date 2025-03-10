@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8288453098856665742}
   - component: {fileID: 2695425626578447509}
   - component: {fileID: 5048520249989367921}
+  - component: {fileID: 8822355275073269846}
   m_Layer: 0
   m_Name: Player Wrapper
   m_TagString: Player
@@ -95,9 +96,10 @@ MonoBehaviour:
   dashSpeed: 10
   PlayerObj: {fileID: 6483624338666916987}
   rigidBody: {fileID: 3132722453217697696}
-  dashCooldDown: 5
+  dashCooldDown: 0.15
   dashTime: 0.1
-  curHealth: 0
+  curHealth:
+    m_InternalValue: 0
   maxHealth: 100
   healthBar: {fileID: 6467715994900109706}
   projectial: {fileID: 7326590560004912086, guid: 9b0e3029b0031bc4c8cf7b0bf2f86feb, type: 3}
@@ -119,6 +121,37 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &8822355275073269846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328074772819938715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 0
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!1 &4656739134691786236
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,7 +362,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8851148963869832570}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -28,7 +28,8 @@ public class GameManager : NetworkBehaviour
         {
             randLoc.x = Random.Range(xRange.x, xRange.y);
             randLoc.y = Random.Range(yRange.x, yRange.y);
-            Instantiate(healPack, randLoc, transform.rotation);
+            //GameObject healpack = Instantiate(healPack, randLoc, transform.rotation);
+            //healPack.GetComponent<NetworkObject>().Spawn(true);
             lastHealSpawnTime = Time.time;
         }
     }

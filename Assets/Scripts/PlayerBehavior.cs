@@ -28,7 +28,7 @@ public class PlayerBehavior : NetworkBehaviour
     private bool isVulenerable = true;
 
     //health
-    public float curHealth;
+    [SerializeField] private NetworkVariable<float> curHealth = new NetworkVariable<float>(0);
     public float maxHealth = 100f;
     public ValueBar healthBar;
 
@@ -39,7 +39,7 @@ public class PlayerBehavior : NetworkBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    public override void OnNetworkSpawn()
     {
         numPlayers += 1;
 
@@ -48,37 +48,27 @@ public class PlayerBehavior : NetworkBehaviour
         lastDashTime = Time.time;
 
         //set health
-        curHealth = maxHealth;
+        curHealth.Value = maxHealth;
         healthBar.setMaxValue(maxHealth);
+        curHealth.OnValueChanged += (float previousValue, float newValue) => { healthBar.setValue(newValue); };
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (curHealth > 0)
+        //Do nothing if this is the incorrect client object
+        if (!IsOwner)
+            return;
+
+        if (curHealth.Value > 0)
         {
             //move the player based on user input
             movement.x = Input.GetAxisRaw("Horizontal");
             movement.y = Input.GetAxisRaw("Vertical");
-            movement.Normalize();
 
-            rigidBody.velocity = movement * currSpeed;
+            MoveServerRPC(movement, currSpeed);
 
-
-            //rotate player accordingly
-            if (movement.x != 0)
-            {
-                PlayerObj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, movement.x * -90));
-            }
-
-            if (movement.y == 1)
-            {
-                PlayerObj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-            }
-            else if (movement.y == -1)
-            {
-                PlayerObj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
-            }
+            
 
             //dash
             if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -104,7 +94,7 @@ public class PlayerBehavior : NetworkBehaviour
 
             if (Input.GetMouseButtonDown(0) && !isDashing)
             {
-                Attack();
+                AttackServerRPC(launchOffset.position, launchOffset.rotation, damageAmount);
             }
 
             //cheat mode
@@ -119,17 +109,44 @@ public class PlayerBehavior : NetworkBehaviour
         }
     }
 
-    public void Attack()
+    [ServerRpc]
+    public void MoveServerRPC(Vector2 movement, float curSpeed)
+    {
+        //get componates
+        rigidBody = GetComponent<Rigidbody2D>();
+        movement.Normalize();
+
+        rigidBody.velocity = movement * currSpeed;
+
+        //rotate player accordingly
+        if (movement.x != 0)
+        {
+            PlayerObj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, movement.x * -90));
+        }
+
+        if (movement.y == 1)
+        {
+            PlayerObj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        }
+        else if (movement.y == -1)
+        {
+            PlayerObj.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
+        }
+    }
+
+    [ServerRpc]
+    public void AttackServerRPC(Vector3 pos,Quaternion rot, float damageAmount)
     {
         //
-        ProjectialBehavoir playerProjectial = Instantiate(projectial, launchOffset.position, launchOffset.rotation);
+        ProjectialBehavoir playerProjectial = Instantiate(projectial, pos, rot);
+        playerProjectial.GetComponent<NetworkObject>().Spawn(true);
         playerProjectial.damageAmount = damageAmount;
     }
 
     private void changeHealth(int value)
     {
-        curHealth += value;
-        healthBar.setValue(curHealth);
+        curHealth.Value += value;
+        
     }
 
     public void applyDamage(int value) 
@@ -144,7 +161,7 @@ public class PlayerBehavior : NetworkBehaviour
     public void applyHeal(int value)
     {
         //
-        if (curHealth < maxHealth)
+        if (curHealth.Value < maxHealth)
         {
             changeHealth(value);
         }
