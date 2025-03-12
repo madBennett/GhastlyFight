@@ -55,12 +55,6 @@ public class PlayerBehavior : NetworkBehaviour
         numPlayers += 1;
 
         PlayerId = OwnerClientId + 1;
-        healthBarText.text = "Player: " + PlayerId;
-
-        //Change color to make distinct between players
-        Vector3 newColor = new Vector3(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
-        SpriteRenderer sprite = PlayerObj.GetComponent<SpriteRenderer>();
-        sprite.color = new Color(newColor.x, newColor.y, newColor.z, 255);
 
         //set speed and dash time
         currSpeed = normSpeed;

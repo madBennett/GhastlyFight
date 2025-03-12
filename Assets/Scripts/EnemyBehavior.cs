@@ -80,6 +80,7 @@ public class EnemyBehavior : NetworkBehaviour
         {
             Death();
         }
+        Debug.Log("Testing console output");
     }
 
     public void Attack()
