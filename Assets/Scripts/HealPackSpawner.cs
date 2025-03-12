@@ -15,6 +15,11 @@ public class HealPackSpawner : NetworkBehaviour
     private Vector2 xRange = new Vector2(-7, 7);
     private Vector2 yRange = new Vector2(-3, 3);
 
+    //audio
+    [SerializeField] private AudioClip SpawnClip;
+    public AudioSource audioSource;
+    public float volume = 1f;
+
     // Start is called before the first frame update
     void Start()
     {

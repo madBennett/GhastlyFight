@@ -54,6 +54,10 @@ public class PlayerBehavior : NetworkBehaviour
     [SerializeField] private AudioClip HurtClip;
     [SerializeField] private AudioClip AttackClip;
     [SerializeField] private AudioClip HealClip;
+    [SerializeField] private AudioClip DashClip;
+
+    public AudioSource audioSource;
+    public float volume = 1f;
 
 
     // Start is called before the first frame update
