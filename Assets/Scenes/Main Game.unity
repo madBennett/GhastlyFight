@@ -1258,27 +1258,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b5209e7683d6964f902cdc05783fe0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <IsLocalPlayer>k__BackingField: 0
-  <IsOwner>k__BackingField: 0
-  <IsServer>k__BackingField: 0
-  <ServerIsHost>k__BackingField: 0
-  <IsClient>k__BackingField: 0
-  <IsHost>k__BackingField: 0
-  <IsOwnedByServer>k__BackingField: 0
-  <IsSpawned>k__BackingField: 0
-  m_NetworkObject: {fileID: 0}
-  <NetworkObjectId>k__BackingField: 0
-  <NetworkBehaviourId>k__BackingField: 0
-  NetworkBehaviourIdCache: 0
-  <OwnerClientId>k__BackingField: 0
-  m_VarInit: 0
-  <m_TargetIdBeingSynchronized>k__BackingField: 0
   healSpawnCooldDown: 5
   lastHealSpawnTime: 0
   healPack: {fileID: 7349509410412349386, guid: 4c579cba9dd1b824583b83c8810a61e3, type: 3}
-  randLoc: {x: 0, y: 0, z: 1}
-  xRange: {x: -7, y: 7}
-  yRange: {x: -3, y: 3}
 --- !u!114 &1239971317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1901,6 +1883,14 @@ PrefabInstance:
       value: 20.15
       objectReference: {fileID: 0}
     - target: {fileID: 678535006499490898, guid: c88ea7d2696b01740a2916e5baf274f8, type: 3}
+      propertyPath: m_margin.x
+      value: -103.57445
+      objectReference: {fileID: 0}
+    - target: {fileID: 678535006499490898, guid: c88ea7d2696b01740a2916e5baf274f8, type: 3}
+      propertyPath: m_margin.z
+      value: -142.32166
+      objectReference: {fileID: 0}
+    - target: {fileID: 678535006499490898, guid: c88ea7d2696b01740a2916e5baf274f8, type: 3}
       propertyPath: m_fontSizeBase
       value: 20.15
       objectReference: {fileID: 0}
@@ -2050,7 +2040,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9093408938110143187, guid: c88ea7d2696b01740a2916e5baf274f8, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9093408938110143187, guid: c88ea7d2696b01740a2916e5baf274f8, type: 3}
       propertyPath: m_SizeDelta.x
