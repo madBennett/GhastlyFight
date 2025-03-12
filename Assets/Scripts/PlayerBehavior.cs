@@ -76,7 +76,7 @@ public class PlayerBehavior : NetworkBehaviour
         //set health
         curHealth.Value = maxHealth;
         healthBar.setMaxValue(maxHealth);
-        curHealth.OnValueChanged += HealthChanged;
+        curHealth.OnValueChanged += HealthChanged;//subscribe to health change on network varible
 
         //prevent activation of game over scene
         GameOverScreen.SetActive(false);

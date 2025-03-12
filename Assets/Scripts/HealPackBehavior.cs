@@ -5,6 +5,7 @@ using Unity.Netcode;
 
 public class HealPackBehavior : NetworkBehaviour
 {
+    //set default varibles
     [SerializeField] private float healAmount = 10f;
     [SerializeField] private float despawnCooldDown = 2f;
     [SerializeField] private float spawnTime;
@@ -12,12 +13,14 @@ public class HealPackBehavior : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //set cooldown time
         spawnTime = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //only take action if it is spawned
         if (!NetworkObject.IsSpawned)
         {
             return;
@@ -25,6 +28,7 @@ public class HealPackBehavior : NetworkBehaviour
 
         if ((Time.time - spawnTime) >= despawnCooldDown)
         {
+            //destroy on cooldown up
             NetworkObject.Despawn(true);
             Destroy(gameObject);
         }
@@ -32,12 +36,13 @@ public class HealPackBehavior : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //
+        //allows server control only
         if (!NetworkObject.IsSpawned)
         {
             return;
         }
 
+        //on collsion with the player heal them and despawn
         if ((collision.gameObject.tag == "Player"))
         {
             collision.gameObject.SendMessage("applyHeal", healAmount);

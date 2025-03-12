@@ -12,14 +12,14 @@ public class ValueBar : MonoBehaviour
 
     public void setValue(float val)
     {
-        //
+        //change slider value and graident
         slider.value = val;
         fill.color = gradient.Evaluate(slider.normalizedValue);
     }
 
     public void setMaxValue(float val)
     {
-        //
+        //set up silder
         slider.maxValue = val;
         slider.value = val;
 

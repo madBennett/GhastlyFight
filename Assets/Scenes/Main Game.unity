@@ -860,7 +860,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 723885207}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.2011548, y: -1.2767563, z: 0.55063915}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1219,7 +1219,7 @@ GameObject:
   - component: {fileID: 1239971317}
   - component: {fileID: 1239971316}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: HealPackSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1258,9 +1258,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b5209e7683d6964f902cdc05783fe0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <IsLocalPlayer>k__BackingField: 0
+  <IsOwner>k__BackingField: 0
+  <IsServer>k__BackingField: 0
+  <ServerIsHost>k__BackingField: 0
+  <IsClient>k__BackingField: 0
+  <IsHost>k__BackingField: 0
+  <IsOwnedByServer>k__BackingField: 0
+  <IsSpawned>k__BackingField: 0
+  m_NetworkObject: {fileID: 0}
+  <NetworkObjectId>k__BackingField: 0
+  <NetworkBehaviourId>k__BackingField: 0
+  NetworkBehaviourIdCache: 0
+  <OwnerClientId>k__BackingField: 0
+  m_VarInit: 0
+  <m_TargetIdBeingSynchronized>k__BackingField: 0
   healSpawnCooldDown: 5
   lastHealSpawnTime: 0
   healPack: {fileID: 7349509410412349386, guid: 4c579cba9dd1b824583b83c8810a61e3, type: 3}
+  randLoc: {x: 0, y: 0, z: 1}
+  xRange: {x: -7, y: 7}
+  yRange: {x: -3, y: 3}
 --- !u!114 &1239971317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2076,15 +2094,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5914128730160018164, guid: e481452f743040841b86780d7b33898a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -3.2
       objectReference: {fileID: 0}
     - target: {fileID: 5914128730160018164, guid: e481452f743040841b86780d7b33898a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 4.75
       objectReference: {fileID: 0}
     - target: {fileID: 5914128730160018164, guid: e481452f743040841b86780d7b33898a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 5914128730160018164, guid: e481452f743040841b86780d7b33898a, type: 3}
       propertyPath: m_LocalRotation.w
