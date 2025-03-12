@@ -54,7 +54,8 @@ public class PlayerBehavior : NetworkBehaviour
     {
         numPlayers += 1;
 
-        PlayerId = OwnerClientId + 1;
+        PlayerId = OwnerClientId;
+        healthBarText.text = "Player: " + (PlayerId + 1);
 
         //set speed and dash time
         currSpeed = normSpeed;

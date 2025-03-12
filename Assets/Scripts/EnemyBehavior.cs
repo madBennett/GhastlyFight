@@ -7,6 +7,8 @@ using UnityEngine.Assertions;
 
 public class EnemyBehavior : NetworkBehaviour
 {
+    public ulong id = 999999;
+
     //health
     [SerializeField] private NetworkVariable<float> curHealth = new NetworkVariable<float>(0);
     public float maxHealth = 1000f;
@@ -105,11 +107,11 @@ public class EnemyBehavior : NetworkBehaviour
     {
         ProjectialBehavoir enemyProjectial = Instantiate(projectial, pos, rot);
 
-        enemyProjectial.GetComponent<NetworkObject>().SpawnWithOwnership(0);
+        enemyProjectial.GetComponent<NetworkObject>().SpawnWithOwnership(id);
 
         enemyProjectial.damageAmount = damageAmount * damageUpAmount;
         enemyProjectial.speed *= damageUpAmount;
-        enemyProjectial.ownerId = 0;
+        enemyProjectial.ownerId = id;
 
     }
 
