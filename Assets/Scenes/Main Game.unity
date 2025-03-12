@@ -314,7 +314,7 @@ GameObject:
   - component: {fileID: 106328412}
   - component: {fileID: 106328411}
   m_Layer: 0
-  m_Name: Pixrel Wood Floor
+  m_Name: Pixel Wood Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

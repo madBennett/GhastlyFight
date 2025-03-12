@@ -169,6 +169,8 @@ public class EnemyBehavior : NetworkBehaviour
         }
         Assert.IsTrue(NetworkManager.IsServer);
 
+        PlayerBehavior.isEnemyDead = true;
+
         NetworkObject.Despawn(true);
     }
 }
