@@ -67,9 +67,15 @@ public class EnemyBehavior : NetworkBehaviour
         //visually display health
         healthBar.setValue(newValue);
 
-        //trigger death if players health is too low
-        if (newValue <= 0)
+        if (newValue <= healthThreshold)
         {
+            //shift phase
+            GameManager.gameState = GameStates.GAME_PHASE2;
+        }
+        else if (newValue <= 0)
+        {
+            //trigger death if players health is too low and shift game state
+            GameManager.gameState = GameStates.GAME_PHASE3;
             Death();
         }
     }
@@ -77,7 +83,8 @@ public class EnemyBehavior : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (curHealth.Value > 0)
+        if (GameManager.gameState == GameStates.GAME_PHASE1 
+            || GameManager.gameState == GameStates.GAME_PHASE2)
         {
             //Calc a reduction on all cooldowns for an extra challenge based on the current health, not exceeding the threshold
             coolDownReduction = ((curHealth.Value / maxHealth) > maxRedution) ? (curHealth.Value / maxHealth) : maxRedution;
@@ -103,7 +110,7 @@ public class EnemyBehavior : NetworkBehaviour
         int damageUpAmount = 1;
 
         //on half health increase damage and speed of projectials
-        if (curHealth.Value <= healthThreshold)
+        if (GameManager.gameState == GameStates.GAME_PHASE2)
         {
             damageUpAmount = 2;
         }
@@ -192,7 +199,10 @@ public class EnemyBehavior : NetworkBehaviour
         Assert.IsTrue(NetworkManager.IsServer);
 
         //notify players that the enemy is dead
-        PlayerBehavior.isEnemyDead = true;
+        GameManager.isEnemyDead = true;
+
+        //Change value of area to prevent unnessary changes
+        curLocation.isEnemy.Value = false;
 
         //despawn object
         NetworkObject.Despawn(true);

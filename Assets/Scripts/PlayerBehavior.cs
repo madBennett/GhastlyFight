@@ -10,7 +10,6 @@ public class PlayerBehavior : NetworkBehaviour
 {
     //Static Varibles
     public static int numPlayers = 0; //total number of alive players 
-    public static bool isEnemyDead = false; //varible to alert players when the enemy is "killed"
 
     //Player Identification
     public ulong PlayerId = 0;
@@ -81,9 +80,6 @@ public class PlayerBehavior : NetworkBehaviour
         curHealth.Value = maxHealth;
         healthBar.setMaxValue(maxHealth);
         curHealth.OnValueChanged += HealthChanged;//subscribe to health change on network varible
-
-        //prevent activation of game over scene
-        GameOverScreen.SetActive(false);
     }
 
     private void HealthChanged(float previousValue, float newValue)
@@ -105,55 +101,60 @@ public class PlayerBehavior : NetworkBehaviour
         if (!IsOwner)
             return;
 
-        if (isEnemyDead)
+        if (GameManager.gameState != GameStates.WAITING)
         {
-            //actions to take if enemy is dead
-        }
 
-        //While the player is alive allow to interact with the scene
-        if (curHealth.Value > 0)
-        {
-            //move the player based on user input
-            movement.x = Input.GetAxisRaw("Horizontal");
-            movement.y = Input.GetAxisRaw("Vertical");
 
-            //dash
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (GameManager.gameState == GameStates.GAME_PHASE3)
             {
-                if ((Time.time - lastDashTime) >= dashCooldDown)
+                //actions to take if enemy is dead
+            }
+
+            //While the player is alive allow to interact with the scene
+            if (curHealth.Value > 0)
+            {
+                //move the player based on user input
+                movement.x = Input.GetAxisRaw("Horizontal");
+                movement.y = Input.GetAxisRaw("Vertical");
+
+                //dash
+                if (Input.GetKeyDown(KeyCode.LeftShift))
                 {
-                    isDashing = true;
-                    currSpeed = dashSpeed;
-                    lastDashTime = Time.time;//reset for proper cooldown
-                    isVulenerable = false;///prevent damage to player while dashing
+                    if ((Time.time - lastDashTime) >= dashCooldDown)
+                    {
+                        isDashing = true;
+                        currSpeed = dashSpeed;
+                        lastDashTime = Time.time;//reset for proper cooldown
+                        isVulenerable = false;///prevent damage to player while dashing
+                    }
                 }
-            }
 
-            if (isDashing)
-            {
-                if ((Time.time - lastDashTime) >= dashTime)
+                if (isDashing)
                 {
-                    //reset on cooldown completion
-                    isDashing = false;
-                    currSpeed = normSpeed;
-                    isVulenerable = true;
+                    if ((Time.time - lastDashTime) >= dashTime)
+                    {
+                        //reset on cooldown completion
+                        isDashing = false;
+                        currSpeed = normSpeed;
+                        isVulenerable = true;
+                    }
                 }
-            }
 
-            //move the player according to inputs on the server
-            MoveServerRPC(movement, currSpeed);
+                //move the player according to inputs on the server
+                MoveServerRPC(movement, currSpeed);
 
-            //attack
-            if ((Input.GetMouseButtonDown(0)) && (!isDashing) && ((Time.time - lastAttackTime) >= attackCooldDown))
+                //attack
+                if ((Input.GetMouseButtonDown(0)) && (!isDashing) && ((Time.time - lastAttackTime) >= attackCooldDown))
                 {
-                AttackServerRPC(launchOffset.position, launchOffset.rotation, damageAmount);
-                lastAttackTime = Time.time;
-            }
+                    AttackServerRPC(launchOffset.position, launchOffset.rotation, damageAmount);
+                    lastAttackTime = Time.time;
+                }
 
-            //cheat mode (For your ease Prof)
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                isVulenerable = false;
+                //cheat mode (For your ease Prof)
+                if (Input.GetKeyDown(KeyCode.K))
+                {
+                    isVulenerable = false;
+                }
             }
         }
     }
@@ -261,7 +262,7 @@ public class PlayerBehavior : NetworkBehaviour
     public void GameOver()
     {
         //if the player is the only one alive and has killed the enemy this is a win state
-        if (numPlayers == 1 && isEnemyDead && curHealth.Value > 0)
+        if (numPlayers == 1 && GameManager.gameState == GameStates.GAME_PHASE3 && curHealth.Value > 0)
         {
             //load a game win scene
             SceneManager.LoadScene(gameWinSceneID);
@@ -269,7 +270,7 @@ public class PlayerBehavior : NetworkBehaviour
         else
         {
             //display game over-loss screen
-            GameOverScreen.SetActive(true);
+            
         }
     }
 }

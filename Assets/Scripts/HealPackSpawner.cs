@@ -30,14 +30,17 @@ public class HealPackSpawner : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((Time.time - lastHealSpawnTime) >= healSpawnCooldDown)
+        if (GameManager.gameState != GameStates.WAITING)
         {
-            //on cooldown up choose a random location and spawn a heal pack there
-            randLoc.x = Random.Range(xRange.x, xRange.y);
-            randLoc.y = Random.Range(yRange.x, yRange.y);
-            SpawnHealServerRPC(randLoc, transform.rotation);
-            //reset cooldown
-            lastHealSpawnTime = Time.time;
+            if ((Time.time - lastHealSpawnTime) >= healSpawnCooldDown)
+            {
+                //on cooldown up choose a random location and spawn a heal pack there
+                randLoc.x = Random.Range(xRange.x, xRange.y);
+                randLoc.y = Random.Range(yRange.x, yRange.y);
+                SpawnHealServerRPC(randLoc, transform.rotation);
+                //reset cooldown
+                lastHealSpawnTime = Time.time;
+            }
         }
     }
 
