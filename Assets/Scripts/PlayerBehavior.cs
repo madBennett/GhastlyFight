@@ -16,8 +16,8 @@ public class PlayerBehavior : NetworkBehaviour
     [SerializeField] private TMP_Text healthBarText; //text box to disaplayer player id
 
     //Objects for game over state
-    [SerializeField] private GameObject GameOverScreen;
     private int gameWinSceneID = 2;
+    private int gameLoseSceneID = 3;
 
     //Movement
     [SerializeField] private float normSpeed = 5f;
