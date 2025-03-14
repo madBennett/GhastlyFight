@@ -172,8 +172,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 15
-  damageAmount: 5
   rigidBody: {fileID: 7750071933719903850}
+  damageAmount: 5
+  ownerId: 0
 --- !u!50 &7750071933719903850
 Rigidbody2D:
   serializedVersion: 4
@@ -224,7 +225,7 @@ MonoBehaviour:
   UseQuaternionCompression: 0
   UseHalfFloatPrecision: 0
   InLocalSpace: 0
-  Interpolate: 1
+  Interpolate: 0
   SlerpPosition: 0
 --- !u!114 &8066386959076758214
 MonoBehaviour:
