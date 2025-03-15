@@ -52,6 +52,7 @@ public class EnemyBehavior : NetworkBehaviour
     // Start is called before the first frame update
     public override void OnNetworkSpawn()
     {
+        Debug.Log("SPAWNED ENEMY");
         //set health
         curHealth.Value = maxHealth;
         healthBar.setMaxValue(maxHealth);
@@ -83,6 +84,7 @@ public class EnemyBehavior : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("ENEMY UPDATE FRAME");
         if (GameManager.gameState == GameStates.GAME_PHASE1 
             || GameManager.gameState == GameStates.GAME_PHASE2)
         {

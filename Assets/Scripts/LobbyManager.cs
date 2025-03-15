@@ -10,12 +10,16 @@ using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviour
 {
-    public static int lobbyCount = 0;
+    public static LobbyManager LobbyManagerInstance;
     private Lobby joinedLobby;
+    private float heartbeatTimer = 0f ;
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
         InitializeUnityAuthentication();
+
+        LobbyManagerInstance = this;
     }
 
     private async void InitializeUnityAuthentication()
@@ -37,7 +41,6 @@ public class LobbyManager : MonoBehaviour
             joinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, 4, new CreateLobbyOptions { IsPrivate = isPrivate, });
             NetworkManager.Singleton.StartHost();
             SceneManager.LoadScene(GameManager.lobbySceneID);
-            lobbyCount++;
         }
         catch (LobbyServiceException e)
         {
@@ -57,5 +60,48 @@ public class LobbyManager : MonoBehaviour
         {
             Debug.Log(e);
         }
+    }
+
+    public async void JoinLobbyWIthCode(string lobbyCode)
+    {
+        try
+        {
+            joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+            NetworkManager.Singleton.StartClient();
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
+    }
+
+    public Lobby getJoinedLobby()
+    {
+        return joinedLobby;
+    }
+
+    private void Update()
+    {
+        HandleHeartbeat();
+    }
+
+    public void HandleHeartbeat()
+    {
+        if (IsLobbyHost())
+        {
+            heartbeatTimer -= Time.deltaTime;
+            if (heartbeatTimer <= 0f)
+            {
+                float heartbeatTimerMax = 15f;
+                heartbeatTimer = heartbeatTimerMax;
+
+                LobbyService.Instance.SendHeartbeatPingAsync(joinedLobby.Id);
+            }
+        }
+    }
+
+    public bool IsLobbyHost()
+    {
+        return (joinedLobby != null) && (joinedLobby.HostId == AuthenticationService.Instance.PlayerId);
     }
 }

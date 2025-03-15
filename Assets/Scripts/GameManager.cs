@@ -23,6 +23,14 @@ public class GameManager : NetworkBehaviour
     static public int gameWinSceneID = 4;
     static public int gameLoseSceneID = 5;
 
+    //Scene Names
+    static public string startSceneName = "Menu";
+    static public string lobbySceneName = "Lobby";
+    static public string instructSceneName = "Instructions";
+    static public string mainGameSceneName = "Main Game";
+    static public string gameWinSceneName = "Game Win";
+    static public string gameLoseSceneName = "Game Lose";
+
 
     [SerializeField] public static GameStates gameState;
     public static bool isEnemyDead = false; //varible to alert players when the enemy is "killed"
