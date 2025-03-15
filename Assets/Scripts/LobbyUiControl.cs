@@ -30,6 +30,6 @@ public class LobbyUiControl : MonoBehaviour
     void Update()
     {
         if (GameManager.gameState == GameStates.LOBBY)
-            ReadyPlayers.text = ButtonBehavior.readyPlayers.Value + " / " + PlayerBehavior.numPlayers;
+            ReadyPlayers.text = ButtonBehavior.readyPlayers + " / " + PlayerBehavior.numPlayers;
     }
 }

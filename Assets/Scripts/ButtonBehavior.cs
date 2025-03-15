@@ -5,7 +5,7 @@ using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class ButtonBehavior : NetworkBehaviour
+public class ButtonBehavior : MonoBehaviour
 {
     public LobbyManager lobbyManager;
 
@@ -17,17 +17,23 @@ public class ButtonBehavior : NetworkBehaviour
     public TMP_InputField lobbyCode;
     public TMP_InputField lobbyName;
 
-    public static NetworkVariable<int> readyPlayers = new NetworkVariable<int>(0);
+    public static int readyPlayers = 0;
 
     private void Start()
     {
         lobbyManager = LobbyManager.LobbyManagerInstance;
     }
+
+    private void Update()
+    {
+        Debug.Log(readyPlayers);
+    }
+
     [ServerRpc]
     public void PlayGameServerRPC()
     {
         //load a game Main scene
-        if (lobbyManager.IsLobbyHost())// && (PlayerBehavior.numPlayers == ButtonBehavior.readyPlayers.Value))
+        if (lobbyManager.IsLobbyHost())// && (PlayerBehavior.numPlayers == ButtonBehavior.readyPlayers))
         {
             LobbyUI.SetActive(false);
             GameManager.gameState = GameStates.GAME_PHASE1;
@@ -35,12 +41,14 @@ public class ButtonBehavior : NetworkBehaviour
         }
     }
 
-    public void PlayerReady()
+    [ServerRpc]
+    public void PlayerReadyServerRPC()
     {
+        readyPlayers++;
         if (!lobbyManager.IsLobbyHost())
             LobbyUI.SetActive(false);
-        readyPlayers.Value += 1;
-        ReadyUpButtons.SetActive(false);
+        else
+            ReadyUpButtons.SetActive(false);
     }
 
     public void OpenInstructions()
