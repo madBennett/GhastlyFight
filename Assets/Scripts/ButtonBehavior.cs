@@ -33,7 +33,7 @@ public class ButtonBehavior : MonoBehaviour
 
     public void StartLobby()
     {
-        lobbyManager.CreateLobby("Lobby1", false);
+        lobbyManager.CreateLobby(("Lobby" + LobbyManager.lobbyCount), false);
     }
 
     public void StartClient()

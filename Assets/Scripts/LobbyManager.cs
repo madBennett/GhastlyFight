@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviour
 {
+    public static int lobbyCount = 0;
     private Lobby joinedLobby;
     private void Awake()
     {
@@ -36,6 +37,7 @@ public class LobbyManager : MonoBehaviour
             joinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, 4, new CreateLobbyOptions { IsPrivate = isPrivate, });
             NetworkManager.Singleton.StartHost();
             SceneManager.LoadScene(GameManager.lobbySceneID);
+            lobbyCount++;
         }
         catch (LobbyServiceException e)
         {
