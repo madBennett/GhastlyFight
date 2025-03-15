@@ -6,6 +6,7 @@ using TMPro;
 
 public enum GameStates
 {
+    LOBBY,
     WAITING,
     GAME_PHASE1,
     GAME_PHASE2,
@@ -14,23 +15,28 @@ public enum GameStates
 
 public class GameManager : NetworkBehaviour
 {
-    public static GameStates gameState;
+    //Scene IDS
+    static public int startSceneID = 0;
+    static public int lobbySceneID = 1;
+    static public int instructSceneID = 2;
+    static public int mainGameSceneID = 3;
+    static public int gameWinSceneID = 4;
+    static public int gameLoseSceneID = 5;
+
+
+    [SerializeField] public static GameStates gameState;
     public static bool isEnemyDead = false; //varible to alert players when the enemy is "killed"
 
     // Start is called before the first frame update
     void Start()
     {
-        gameState = GameStates.GAME_PHASE1;
+        gameState = GameStates.LOBBY;//change back to waiting
+        DontDestroyOnLoad(this.gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    private void CountChanged(int previousValue, int newValue)
-    {
-        
+        Debug.Log(gameState);
     }
 }

@@ -50,7 +50,7 @@ public class EnemyBehavior : NetworkBehaviour
     public float volume = 1f;
 
     // Start is called before the first frame update
-    void Start()
+    public override void OnNetworkSpawn()
     {
         //set health
         curHealth.Value = maxHealth;

@@ -6,28 +6,24 @@ using UnityEngine.SceneManagement;
 
 public class ButtonBehavior : MonoBehaviour
 {
-    //Scene IDS
-    private int startSceneID = 0;
-    private int mainGameSceneID = 1;
-    private int instructSceneID = 3;
-
-
+    public LobbyManager lobbyManager;
     public void PlayGame()
     {
         //load a game Main scene
-        SceneManager.LoadScene(mainGameSceneID);
+        GameManager.gameState = GameStates.GAME_PHASE1;
+        SceneManager.LoadScene(GameManager.mainGameSceneID);
     }
 
     public void OpenInstructions()
     {
         //load a game instructions scene
-        SceneManager.LoadScene(instructSceneID);
+        SceneManager.LoadScene(GameManager.instructSceneID);
     }
 
     public void ReturnToStart()
     {
         //load a game start scene
-        SceneManager.LoadScene(startSceneID);
+        SceneManager.LoadScene(GameManager.startSceneID);
     }
 
     public void QuitGame()
@@ -35,9 +31,9 @@ public class ButtonBehavior : MonoBehaviour
         Application.Quit();
     }
 
-    public void StartHost()
+    public void StartLobby()
     {
-        NetworkManager.Singleton.StartHost();
+        lobbyManager.CreateLobby("Lobby1", false);
     }
 
     public void StartClient()

@@ -15,10 +15,6 @@ public class PlayerBehavior : NetworkBehaviour
     public ulong PlayerId = 0;
     [SerializeField] private TMP_Text healthBarText; //text box to disaplayer player id
 
-    //Objects for game over state
-    private int gameWinSceneID = 3;
-    private int gameLoseSceneID = 4;
-
     //Movement
     [SerializeField] private float normSpeed = 5f;
     [SerializeField] private float dashSpeed = 10f;
@@ -33,6 +29,7 @@ public class PlayerBehavior : NetworkBehaviour
     [SerializeField] private float dashCooldDown = .15f;
     [SerializeField] private float dashTime = 0.1f;
     private bool isDashing = false;
+    public GameObject dashIndicator;
 
     //for damage
     private bool isVulenerable = true; //varible to prevent damage to player
@@ -80,6 +77,8 @@ public class PlayerBehavior : NetworkBehaviour
         curHealth.Value = maxHealth;
         healthBar.setMaxValue(maxHealth);
         curHealth.OnValueChanged += HealthChanged;//subscribe to health change on network varible
+
+        dashIndicator.SetActive(false);
     }
 
     private void HealthChanged(float previousValue, float newValue)
@@ -122,10 +121,10 @@ public class PlayerBehavior : NetworkBehaviour
                 {
                     if ((Time.time - lastDashTime) >= dashCooldDown)
                     {
+                        DashServerRPC(dashSpeed);
                         isDashing = true;
-                        currSpeed = dashSpeed;
-                        lastDashTime = Time.time;//reset for proper cooldown
                         isVulenerable = false;///prevent damage to player while dashing
+                        lastDashTime = Time.time;//reset for proper cooldown
                     }
                 }
 
@@ -133,12 +132,13 @@ public class PlayerBehavior : NetworkBehaviour
                 {
                     if ((Time.time - lastDashTime) >= dashTime)
                     {
-                        //reset on cooldown completion
                         isDashing = false;
-                        currSpeed = normSpeed;
                         isVulenerable = true;
+                        endDashServerRPC(normSpeed);
                     }
                 }
+
+                dashIndicator.SetActive(isVulenerable);
 
                 //move the player according to inputs on the server
                 MoveServerRPC(movement, currSpeed);
@@ -190,6 +190,21 @@ public class PlayerBehavior : NetworkBehaviour
     }
 
     [ServerRpc]
+    public void DashServerRPC(float dashSpeed)
+    {
+        currSpeed = dashSpeed;
+        //dashIndicator.SetActive(true);
+    }
+
+    [ServerRpc]
+    public void endDashServerRPC(float normSpeed)
+    {
+        //reset on cooldown completion
+        currSpeed = normSpeed;
+        //dashIndicator.SetActive(false);
+    }
+
+    [ServerRpc]
     public void AttackServerRPC(Vector3 pos,Quaternion rot, int damageAmount)
     {
         //spawn projectial
@@ -204,8 +219,8 @@ public class PlayerBehavior : NetworkBehaviour
 
     public void applyDamage(int value) 
     {
-        //check if the player and be damaged and do so as nessary
-        if (isVulenerable)
+        //check if the player and be damaged and do so as nessary if it is not in the lobby
+        if (isVulenerable && !(GameManager.gameState ==  GameStates.LOBBY))
         {
             curHealth.Value -= value;
         }
@@ -266,12 +281,13 @@ public class PlayerBehavior : NetworkBehaviour
         {
             //load a game win scene
             //NetworkManager.SceneManager.LoadScene(gameWinSceneID, LoadSceneMode.Additive);
-            SceneManager.LoadScene(gameWinSceneID);
+            SceneManager.LoadScene(GameManager.gameWinSceneID);
         }
         else
         {
             //display game over-loss screen
-            SceneManager.LoadScene(gameLoseSceneID);
+            //SceneManager.LoadScene(GameManager.gameLoseSceneID);
+            healthBarText.text = "Player " + (PlayerId + 1) + ": DEAD";
         }
     }
 }
