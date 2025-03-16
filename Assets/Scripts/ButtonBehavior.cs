@@ -48,6 +48,12 @@ public class ButtonBehavior : MonoBehaviour
         LobbySetUpUI.SetActive(true);
     }
 
+    public void LeaveLobby()
+    {
+        lobbyManager.LeaveLobby();
+        ReturnToStart();
+    }
+
     public void ReturnToStart()
     {
         //load a game start scene

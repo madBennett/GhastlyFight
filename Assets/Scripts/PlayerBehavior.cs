@@ -280,8 +280,8 @@ public class PlayerBehavior : NetworkBehaviour
         if (numPlayers == 1 && GameManager.gameState == GameStates.GAME_PHASE3 && curHealth.Value > 0)
         {
             //load a game win scene
-            //NetworkManager.SceneManager.LoadScene(gameWinSceneID, LoadSceneMode.Additive);
-            SceneManager.LoadScene(GameManager.gameWinSceneID);
+            NetworkManager.SceneManager.LoadScene(GameManager.gameWinSceneName, LoadSceneMode.Single);
+            //SceneManager.LoadScene(GameManager.gameWinSceneID);
         }
         else
         {
