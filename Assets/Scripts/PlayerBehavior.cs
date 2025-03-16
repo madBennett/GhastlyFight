@@ -130,6 +130,7 @@ public class PlayerBehavior : NetworkBehaviour
                         isDashing = true;
                         isVulenerable = false;///prevent damage to player while dashing
                         lastDashTime = Time.time;//reset for proper cooldown
+                        dashIndicator.SetActive(true);
                     }
                 }
 
@@ -140,10 +141,9 @@ public class PlayerBehavior : NetworkBehaviour
                         isDashing = false;
                         isVulenerable = true;
                         endDashServerRPC(normSpeed);
+                        dashIndicator.SetActive(false);
                     }
                 }
-
-                dashIndicator.SetActive(isVulenerable);
 
                 //move the player according to inputs on the server
                 MoveServerRPC(movement, currSpeed);
