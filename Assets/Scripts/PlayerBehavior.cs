@@ -109,7 +109,8 @@ public class PlayerBehavior : NetworkBehaviour
                 //actions to take if enemy is dead
                 if (numPlayers == 1 && GameManager.gameState == GameStates.GAME_PHASE3 && curHealth.Value > 0)
                 {
-                    NetworkManager.SceneManager.LoadScene(GameManager.gameWinSceneName, LoadSceneMode.Single);
+                    GameManager.gameState = GameStates.GAME_OVER;
+                    //NetworkManager.SceneManager.LoadScene(GameManager.gameWinSceneName, LoadSceneMode.Single);
                 }
             }
 

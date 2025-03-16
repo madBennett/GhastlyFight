@@ -32,12 +32,6 @@ public class ButtonBehavior : MonoBehaviour
         }
     }
 
-    public void OpenInstructions()
-    {
-        //load a game instructions scene
-        SceneManager.LoadScene(GameManager.instructSceneID);
-    }
-
     public void OpenPlayGameMenu()
     {
         PlayGameUI.SetActive(true);

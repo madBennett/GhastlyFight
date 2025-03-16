@@ -10,7 +10,8 @@ public enum GameStates
     WAITING,
     GAME_PHASE1,
     GAME_PHASE2,
-    GAME_PHASE3
+    GAME_PHASE3,
+    GAME_OVER
 }
 
 public class GameManager : NetworkBehaviour
@@ -18,18 +19,12 @@ public class GameManager : NetworkBehaviour
     //Scene IDS
     static public int startSceneID = 0;
     static public int lobbySceneID = 1;
-    static public int instructSceneID = 2;
-    static public int mainGameSceneID = 3;
-    static public int gameWinSceneID = 4;
-    static public int gameLoseSceneID = 5;
+    static public int mainGameSceneID = 2;
 
     //Scene Names
     static public string startSceneName = "Menu";
     static public string lobbySceneName = "Lobby";
-    static public string instructSceneName = "Instructions";
     static public string mainGameSceneName = "Main Game";
-    static public string gameWinSceneName = "Game Win";
-    static public string gameLoseSceneName = "Game Lose";
 
 
     [SerializeField] public static GameStates gameState;
