@@ -11,44 +11,25 @@ public class ButtonBehavior : MonoBehaviour
 
     public GameObject PlayGameUI;
     public GameObject LobbySetUpUI;
-    public GameObject LobbyUI;
-    public GameObject ReadyUpButtons;
 
     public TMP_InputField lobbyCode;
     public TMP_InputField lobbyName;
-
-    public static int readyPlayers = 0;
 
     private void Start()
     {
         lobbyManager = LobbyManager.LobbyManagerInstance;
     }
 
-    private void Update()
-    {
-        Debug.Log(readyPlayers);
-    }
-
-    [ServerRpc]
-    public void PlayGameServerRPC()
+    public void PlayGame()
     {
         //load a game Main scene
-        if (lobbyManager.IsLobbyHost())// && (PlayerBehavior.numPlayers == ButtonBehavior.readyPlayers))
+        if (lobbyManager.IsLobbyHost())
         {
-            LobbyUI.SetActive(false);
             GameManager.gameState = GameStates.GAME_PHASE1;
-            NetworkManager.Singleton.SceneManager.LoadScene(GameManager.mainGameSceneName, LoadSceneMode.Additive);
-        }
-    }
 
-    [ServerRpc]
-    public void PlayerReadyServerRPC()
-    {
-        readyPlayers++;
-        if (!lobbyManager.IsLobbyHost())
-            LobbyUI.SetActive(false);
-        else
-            ReadyUpButtons.SetActive(false);
+            lobbyManager.DeleteLobby();
+            NetworkManager.Singleton.SceneManager.LoadScene(GameManager.mainGameSceneName, LoadSceneMode.Single);
+        }
     }
 
     public void OpenInstructions()

@@ -104,4 +104,19 @@ public class LobbyManager : MonoBehaviour
     {
         return (joinedLobby != null) && (joinedLobby.HostId == AuthenticationService.Instance.PlayerId);
     }
+
+    public void DeleteLobby()
+    {
+        if (joinedLobby != null)
+        {
+            try
+            {
+                LobbyService.Instance.DeleteLobbyAsync(joinedLobby.Id);
+            }
+            catch (LobbyServiceException e)
+            {
+                Debug.Log(e);
+            }
+        }
+    }
 }
