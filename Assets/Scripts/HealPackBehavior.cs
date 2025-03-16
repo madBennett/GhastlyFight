@@ -29,8 +29,7 @@ public class HealPackBehavior : NetworkBehaviour
         if ((Time.time - spawnTime) >= despawnCooldDown)
         {
             //destroy on cooldown up
-            NetworkObject.Despawn(true);
-            Destroy(gameObject);
+            RemoveObject();
         }
     }
 
@@ -46,8 +45,20 @@ public class HealPackBehavior : NetworkBehaviour
         if ((collision.gameObject.tag == "Player"))
         {
             collision.gameObject.SendMessage("applyHeal", healAmount);
-            NetworkObject.Despawn(true);
-            Destroy(gameObject);
+            RemoveObject();
         }
+    }
+
+    private void RemoveObject()
+    {
+        //only take action if it is spawned
+        if ((!IsServer) || (!NetworkObject.IsSpawned))
+        {
+            return;
+        }
+
+
+        NetworkObject.Despawn(true);
+        Destroy(gameObject);
     }
 }

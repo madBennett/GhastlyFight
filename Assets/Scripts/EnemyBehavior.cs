@@ -75,9 +75,7 @@ public class EnemyBehavior : NetworkBehaviour
         }
         else if (newValue <= 0)
         {
-            //trigger death if players health is too low and shift game state
-            GameManager.gameState = GameStates.GAME_PHASE3;
-            DeathServerRPC();
+            
         }
     }
 
@@ -102,6 +100,12 @@ public class EnemyBehavior : NetworkBehaviour
                 Attack();
                 lastAttackTime = Time.time;
             }
+        }
+
+        if (curHealth.Value <= 0)
+        {
+            //trigger death if health is too low and shift game state
+            DeathServerRPC();
         }
     }
 
@@ -187,6 +191,10 @@ public class EnemyBehavior : NetworkBehaviour
     public void DeathServerRPC()
     {
         //
+
+        Debug.Log("DEATH");
+
+        GameManager.gameState = GameStates.GAME_PHASE3;
 
         //play death animation and sound
 

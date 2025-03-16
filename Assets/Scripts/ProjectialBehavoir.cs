@@ -46,10 +46,21 @@ public class ProjectialBehavoir : NetworkBehaviour
             }
         }
 
+        //remove object
+        RemoveObject();
+    }
+
+    private void RemoveObject()
+    {
+        //only take action if it is spawned
+        if ((!IsServer) || (!NetworkObject.IsSpawned))
+        {
+            return;
+        }
+
         //subtract from total
         numProjectials -= 1;
 
-        //remove object
         NetworkObject.Despawn(true);
         Destroy(gameObject);
     }

@@ -261,7 +261,6 @@ public class PlayerBehavior : NetworkBehaviour
         {
             return;
         }
-        Assert.IsTrue(NetworkManager.IsServer);
 
         //reset player count
         numPlayers -= 1;
