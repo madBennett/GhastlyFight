@@ -103,10 +103,14 @@ public class PlayerBehavior : NetworkBehaviour
         if (GameManager.gameState != GameStates.WAITING)
         {
 
-
+            Debug.Log("Num Players: " + numPlayers);
             if (GameManager.gameState == GameStates.GAME_PHASE3)
             {
                 //actions to take if enemy is dead
+                if (numPlayers == 1 && GameManager.gameState == GameStates.GAME_PHASE3 && curHealth.Value > 0)
+                {
+                    NetworkManager.SceneManager.LoadScene(GameManager.gameWinSceneName, LoadSceneMode.Single);
+                }
             }
 
             //While the player is alive allow to interact with the scene
@@ -265,28 +269,11 @@ public class PlayerBehavior : NetworkBehaviour
         //reset player count
         numPlayers -= 1;
 
-        //show game over
-        GameOver();
+        //show game over indicator
+        healthBarText.text = "Player " + (PlayerId + 1) + ": DEAD";
 
         //Remove gameobject from scene - removes game over scene as well
         //NetworkObject.Despawn(true);
         //Destroy(gameObject);
-    }
-
-    public void GameOver()
-    {
-        //if the player is the only one alive and has killed the enemy this is a win state
-        if (numPlayers == 1 && GameManager.gameState == GameStates.GAME_PHASE3 && curHealth.Value > 0)
-        {
-            //load a game win scene
-            NetworkManager.SceneManager.LoadScene(GameManager.gameWinSceneName, LoadSceneMode.Single);
-            //SceneManager.LoadScene(GameManager.gameWinSceneID);
-        }
-        else
-        {
-            //display game over-loss screen
-            //SceneManager.LoadScene(GameManager.gameLoseSceneID);
-            healthBarText.text = "Player " + (PlayerId + 1) + ": DEAD";
-        }
     }
 }
