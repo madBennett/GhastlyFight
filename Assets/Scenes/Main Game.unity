@@ -2755,7 +2755,7 @@ PrefabInstance:
       objectReference: {fileID: 2110836404}
     - target: {fileID: 5914128730160018167, guid: e481452f743040841b86780d7b33898a, type: 3}
       propertyPath: damageAmount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5914128730160018167, guid: e481452f743040841b86780d7b33898a, type: 3}
       propertyPath: healthBarText

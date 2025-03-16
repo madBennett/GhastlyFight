@@ -198,7 +198,7 @@ public class PlayerBehavior : NetworkBehaviour
     public void DashServerRPC(float dashSpeed)
     {
         currSpeed = dashSpeed;
-        //dashIndicator.SetActive(true);
+        audioSource.PlayOneShot(DashClip, volume);
     }
 
     [ServerRpc]
@@ -206,7 +206,6 @@ public class PlayerBehavior : NetworkBehaviour
     {
         //reset on cooldown completion
         currSpeed = normSpeed;
-        //dashIndicator.SetActive(false);
     }
 
     [ServerRpc]
@@ -220,6 +219,9 @@ public class PlayerBehavior : NetworkBehaviour
         //set projectials varibles
         playerProjectial.damageAmount = damageAmount;
         playerProjectial.ownerId = PlayerId;
+
+        //play sound
+        audioSource.PlayOneShot(AttackClip, volume);
     }
 
     public void applyDamage(int value) 
@@ -228,6 +230,7 @@ public class PlayerBehavior : NetworkBehaviour
         if (isVulenerable && !(GameManager.gameState ==  GameStates.LOBBY))
         {
             curHealth.Value -= value;
+            audioSource.PlayOneShot(HurtClip, volume);
         }
     }
 
@@ -237,6 +240,7 @@ public class PlayerBehavior : NetworkBehaviour
         if (curHealth.Value < maxHealth)
         {
             curHealth.Value += value;
+            audioSource.PlayOneShot(HealClip, volume);
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)

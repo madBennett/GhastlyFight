@@ -68,6 +68,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ad63a66830a67045b625e5fae4b533b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 999999
+  healthBarText: {fileID: 0}
   curHealth:
     m_InternalValue: 0
   maxHealth: 1000
@@ -83,11 +85,12 @@ MonoBehaviour:
     m_InternalValue: 0
   moveCoolDown: 5
   maxRedution: 0.3
-  healthBarText: {fileID: 0}
   HurtClip: {fileID: 8300000, guid: b2a68b2e0be33c04e96adb1f84f92a17, type: 3}
-  AttackClip: {fileID: 0}
+  AttackClip: {fileID: 8300000, guid: 40d6b862af2052740a7d797224411c18, type: 3}
   DeathClip: {fileID: 8300000, guid: b6c635600d1cb4b4382374fb6e96cb09, type: 3}
-  MoveClip: {fileID: 8300000, guid: 2c50232cf105fa54ea756f5697b0c21f, type: 3}
+  MoveClip: {fileID: 8300000, guid: 182086d0483310441b82bdbe324b6ee7, type: 3}
+  audioSource: {fileID: 0}
+  volume: 0.25
 --- !u!212 &5914128730160018162
 SpriteRenderer:
   m_ObjectHideFlags: 0

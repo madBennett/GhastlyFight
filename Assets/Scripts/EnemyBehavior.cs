@@ -61,6 +61,8 @@ public class EnemyBehavior : NetworkBehaviour
         //set times for cooldown
         lastAttackTime = Time.time;
         lastMoveTime = Time.time;
+
+        Move();
     }
     
     private void HealthChanged(float previousValue, float newValue)
@@ -72,10 +74,6 @@ public class EnemyBehavior : NetworkBehaviour
         {
             //shift phase
             GameManager.gameState = GameStates.GAME_PHASE2;
-        }
-        else if (newValue <= 0)
-        {
-            
         }
     }
 
@@ -125,6 +123,9 @@ public class EnemyBehavior : NetworkBehaviour
         {
             LaunchProjectileServerRPC(launch.position, launch.rotation, damageAmount, damageUpAmount);
         }
+
+        //play audio
+        audioSource.PlayOneShot(AttackClip, volume);
     }
 
     [ServerRpc]
@@ -147,7 +148,6 @@ public class EnemyBehavior : NetworkBehaviour
     {
         //remove marker that enemy is at previous location
         curLocation.isEnemy.Value = false;
-        //curLocation.glowObj.SetActive(false);
 
         //Moves the Enemy to a Random Location
         if (curHealth.Value > healthThreshold)
@@ -168,14 +168,15 @@ public class EnemyBehavior : NetworkBehaviour
 
         //set new loc marker
         curLocation.isEnemy.Value = true;
-        //curLocation.glowObj.SetActive(true);
-
-        //play sound  on move
     }
 
     [ServerRpc]
     private void SetNewPosServerRPC(Vector3 pos, Quaternion rot)
     {
+
+        //play sound  on move
+        audioSource.PlayOneShot(MoveClip, volume);
+
         //set new location and rotations
         transform.position = pos;
         transform.rotation = rot;
@@ -185,6 +186,9 @@ public class EnemyBehavior : NetworkBehaviour
     {
         //subtract amount from health
         curHealth.Value -= value;
+
+        //play audio
+        audioSource.PlayOneShot(HurtClip, volume*2);
     }
 
     [ServerRpc]
@@ -197,6 +201,8 @@ public class EnemyBehavior : NetworkBehaviour
         GameManager.gameState = GameStates.GAME_PHASE3;
 
         //play death animation and sound
+
+        audioSource.PlayOneShot(DeathClip, volume);
 
         //change Healthbar text to new message for players
         healthBarText.text = "ONLY ONE SURVIVES";
