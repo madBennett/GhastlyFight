@@ -204,8 +204,7 @@ public class EnemyBehavior : NetworkBehaviour
 
         audioSource.PlayOneShot(DeathClip, volume);
 
-        //change Healthbar text to new message for players
-        healthBarText.text = "ONLY ONE SURVIVES";
+        ChangeHealthBarNameCLientRPC();
 
         //verify object is spawned
         if (NetworkObject.IsSpawned == false)
@@ -222,5 +221,12 @@ public class EnemyBehavior : NetworkBehaviour
 
         //despawn object
         NetworkObject.Despawn(true);
+    }
+
+    [ClientRpc]
+    public void ChangeHealthBarNameCLientRPC()
+    {
+        //change Healthbar text to new message for players
+        healthBarText.text = "ONLY ONE SURVIVES";
     }
 }

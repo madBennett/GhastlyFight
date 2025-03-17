@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class MainGameUIControler : MonoBehaviour
+public class MainGameUIControler : NetworkBehaviour
 {
     public GameObject GameOverScreen;
     public GameObject OptionsMenu;
@@ -17,9 +18,10 @@ public class MainGameUIControler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.gameState == GameStates.GAME_OVER)
+        if (PlayerBehavior.numPlayers == 1 && GameManager.gameState == GameStates.GAME_PHASE3)
         {
-            GameOverScreen.SetActive(true);
+            OpenGameOverScreenClientRPC();
+            GameManager.gameState = GameStates.GAME_OVER;
         }
     }
 
@@ -31,5 +33,11 @@ public class MainGameUIControler : MonoBehaviour
     public void CloseOptionsMenu()
     {
         OptionsMenu.SetActive(false);
+    }
+
+    [ClientRpc]
+    public void OpenGameOverScreenClientRPC()
+    {
+        GameOverScreen.SetActive(true);
     }
 }

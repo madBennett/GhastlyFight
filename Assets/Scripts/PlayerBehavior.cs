@@ -100,19 +100,8 @@ public class PlayerBehavior : NetworkBehaviour
         if (!IsOwner)
             return;
 
-        if (GameManager.gameState != GameStates.WAITING)
+        if ((GameManager.gameState != GameStates.WAITING) || (GameManager.gameState != GameStates.GAME_OVER))
         {
-
-            Debug.Log("Num Players: " + numPlayers);
-            if (GameManager.gameState == GameStates.GAME_PHASE3)
-            {
-                //actions to take if enemy is dead
-                if (numPlayers == 1 && GameManager.gameState == GameStates.GAME_PHASE3 && curHealth.Value > 0)
-                {
-                    GameManager.gameState = GameStates.GAME_OVER;
-                    //NetworkManager.SceneManager.LoadScene(GameManager.gameWinSceneName, LoadSceneMode.Single);
-                }
-            }
 
             //While the player is alive allow to interact with the scene
             if (curHealth.Value > 0)
