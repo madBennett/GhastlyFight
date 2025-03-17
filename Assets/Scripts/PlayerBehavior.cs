@@ -286,7 +286,7 @@ public class PlayerBehavior : NetworkBehaviour
                 audioSource.PlayOneShot(AttackClip, volume);
                 break;
             case AudioType.DASH:
-                //
+                audioSource.PlayOneShot(DashClip, volume);
                 break;
             case AudioType.HEAL:
                 audioSource.PlayOneShot(HealClip, volume);
