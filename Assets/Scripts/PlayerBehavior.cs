@@ -191,7 +191,7 @@ public class PlayerBehavior : NetworkBehaviour
     public void DashServerRPC(float dashSpeed)
     {
         currSpeed = dashSpeed;
-        audioSource.PlayOneShot(DashClip, volume);
+        PlayAudioClientRPC(AudioType.DASH, volume);
     }
 
     [ServerRpc]
@@ -214,7 +214,7 @@ public class PlayerBehavior : NetworkBehaviour
         playerProjectial.ownerId = PlayerId;
 
         //play sound
-        audioSource.PlayOneShot(AttackClip, volume);
+        PlayAudioClientRPC(AudioType.ATTACK, volume);
     }
 
     public void applyDamage(int value) 
@@ -223,7 +223,7 @@ public class PlayerBehavior : NetworkBehaviour
         if (isVulenerable && !(GameManager.gameState ==  GameStates.LOBBY))
         {
             curHealth.Value -= value;
-            audioSource.PlayOneShot(HurtClip, volume);
+            PlayAudioClientRPC(AudioType.HURT, volume);
         }
     }
 
@@ -233,7 +233,7 @@ public class PlayerBehavior : NetworkBehaviour
         if (curHealth.Value < maxHealth)
         {
             curHealth.Value += value;
-            audioSource.PlayOneShot(HealClip, volume);
+            PlayAudioClientRPC(AudioType.HEAL, volume);
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
@@ -270,8 +270,30 @@ public class PlayerBehavior : NetworkBehaviour
         //show game over indicator
         healthBarText.text = "Player " + (PlayerId + 1) + ": DEAD";
 
+        isDead = true;
+
         //Remove gameobject from scene - removes game over scene as well
         //NetworkObject.Despawn(true);
         //Destroy(gameObject);
+    }
+
+    [ClientRpc]
+    private void PlayAudioClientRPC(AudioType audioType, float volume)
+    {
+        switch (audioType)
+        {
+            case AudioType.ATTACK:
+                audioSource.PlayOneShot(AttackClip, volume);
+                break;
+            case AudioType.DASH:
+                //
+                break;
+            case AudioType.HEAL:
+                audioSource.PlayOneShot(HealClip, volume);
+                break;
+            case AudioType.HURT:
+                audioSource.PlayOneShot(HurtClip, volume);
+                break;
+        }
     }
 }

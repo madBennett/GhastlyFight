@@ -125,7 +125,7 @@ public class EnemyBehavior : NetworkBehaviour
         }
 
         //play audio
-        audioSource.PlayOneShot(AttackClip, volume);
+        PlayAudioClientRPC(AudioType.ATTACK, volume);
     }
 
     [ServerRpc]
@@ -175,7 +175,7 @@ public class EnemyBehavior : NetworkBehaviour
     {
 
         //play sound  on move
-        audioSource.PlayOneShot(MoveClip, volume);
+        PlayAudioClientRPC(AudioType.MOVE, volume);
 
         //set new location and rotations
         transform.position = pos;
@@ -188,7 +188,7 @@ public class EnemyBehavior : NetworkBehaviour
         curHealth.Value -= value;
 
         //play audio
-        audioSource.PlayOneShot(HurtClip, volume*2);
+        PlayAudioClientRPC(AudioType.HURT, volume*2);
     }
 
     [ServerRpc]
@@ -201,8 +201,7 @@ public class EnemyBehavior : NetworkBehaviour
         GameManager.gameState = GameStates.GAME_PHASE3;
 
         //play death animation and sound
-
-        audioSource.PlayOneShot(DeathClip, volume);
+        PlayAudioClientRPC(AudioType.DEATH, volume);
 
         ChangeHealthBarNameCLientRPC();
 
@@ -228,5 +227,25 @@ public class EnemyBehavior : NetworkBehaviour
     {
         //change Healthbar text to new message for players
         healthBarText.text = "ONLY ONE SURVIVES";
+    }
+
+    [ClientRpc]
+    private void PlayAudioClientRPC(AudioType audioType, float volume)
+    {
+        switch(audioType)
+        {
+            case AudioType.ATTACK:
+                audioSource.PlayOneShot(AttackClip, volume);
+                break;
+            case AudioType.DEATH:
+                audioSource.PlayOneShot(DeathClip, volume);
+                break;
+            case AudioType.HURT:
+                audioSource.PlayOneShot(HurtClip, volume);
+                break;
+            case AudioType.MOVE:
+                audioSource.PlayOneShot(MoveClip, volume);
+                break;
+        }
     }
 }

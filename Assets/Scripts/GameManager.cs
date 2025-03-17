@@ -14,6 +14,16 @@ public enum GameStates
     GAME_OVER
 }
 
+public enum AudioType
+{
+    HURT,
+    ATTACK,
+    DEATH,
+    MOVE,
+    HEAL,
+    DASH
+}
+
 public class GameManager : NetworkBehaviour
 {
     //Scene IDS
