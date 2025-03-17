@@ -192,7 +192,7 @@ MonoBehaviour:
   healthBar: {fileID: 6467715994900109706}
   projectial: {fileID: 7326590560004912086, guid: 9b0e3029b0031bc4c8cf7b0bf2f86feb, type: 3}
   launchOffset: {fileID: 7415863785190031701}
-  damageAmount: 100
+  damageAmount: 5
   attackCooldDown: 0.1
   HurtClip: {fileID: 8300000, guid: f6f66656c562c644bb2d9694a1abf06a, type: 3}
   AttackClip: {fileID: 8300000, guid: c1f9fe8fd8e3d5442922d3afd216cb9b, type: 3}
