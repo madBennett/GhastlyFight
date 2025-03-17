@@ -37,19 +37,13 @@ public class GameManager : NetworkBehaviour
     static public string mainGameSceneName = "Main Game";
 
 
-    [SerializeField] public static GameStates gameState;
+    [SerializeField] public static GameStates gameState;//varible to indiocate stat of game to all objects
     public static bool isEnemyDead = false; //varible to alert players when the enemy is "killed"
 
     // Start is called before the first frame update
     void Start()
     {
-        gameState = GameStates.LOBBY;//change back to waiting
+        gameState = GameStates.LOBBY;
         DontDestroyOnLoad(this.gameObject);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Debug.Log(gameState);
     }
 }

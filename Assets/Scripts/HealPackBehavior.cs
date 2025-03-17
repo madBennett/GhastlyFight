@@ -57,7 +57,7 @@ public class HealPackBehavior : NetworkBehaviour
             return;
         }
 
-
+        //Despawn and destroy object
         NetworkObject.Despawn(true);
         Destroy(gameObject);
     }

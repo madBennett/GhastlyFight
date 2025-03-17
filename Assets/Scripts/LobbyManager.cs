@@ -15,30 +15,40 @@ using Unity.Networking.Transport.Relay;
 
 public class LobbyManager : MonoBehaviour
 {
+    //instance to be called in other objects
     public static LobbyManager LobbyManagerInstance;
     private Lobby joinedLobby;
-    private float heartbeatTimer = 0f ;
 
+    //timer to keep lobby alive
+    private float heartbeatTimer = 0f;
+
+    //max players per lobby
     public static int maxPlayers = 4;
 
+    //key for code retrevial
     private const string KEY_RELAY_JOIN_CODE = "RelayJoinCode"; 
 
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
+        //use unity to authenticate users
         InitializeUnityAuthentication();
 
+        //set instance
         LobbyManagerInstance = this;
     }
 
     private async void InitializeUnityAuthentication()
     {
+        //verify is able to authenticate
         if (UnityServices.State != ServicesInitializationState.Initialized)
         {
+            //set a new authenication with random log in
             InitializationOptions intOptions = new InitializationOptions();
             intOptions.SetProfile(Random.Range(0, 100000).ToString());
             await UnityServices.InitializeAsync(intOptions);
 
+            //user signin
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
     }
@@ -47,6 +57,7 @@ public class LobbyManager : MonoBehaviour
     {
         try
         {
+            //create a new relay service instance
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxPlayers - 1);
             return allocation;
         }
@@ -62,6 +73,7 @@ public class LobbyManager : MonoBehaviour
     {
         try
         {
+            //get the join code for the lobby
             string relayJoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
             return relayJoinCode;
         }
@@ -77,6 +89,7 @@ public class LobbyManager : MonoBehaviour
     {
         try
         {
+            //get the allaction from the relay service
             JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
             return joinAllocation;
         }
@@ -91,8 +104,10 @@ public class LobbyManager : MonoBehaviour
     {
         try
         {
+            //set joined lobby
             joinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, new CreateLobbyOptions { IsPrivate = isPrivate, });
 
+            //get resources for relay services
             Allocation allocation = await AllocateRelay();
             string relayJoinCode = await getRelayJoinCode(allocation);
 
@@ -107,6 +122,7 @@ public class LobbyManager : MonoBehaviour
                         } 
                 });
 
+            //start user as host and load main game scene
             NetworkManager.Singleton.StartHost();
             SceneManager.LoadScene(GameManager.lobbySceneID);
         }
@@ -120,6 +136,7 @@ public class LobbyManager : MonoBehaviour
     {
         try
         {
+            //get joined lobby
             joinedLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
 
             //join relay
@@ -127,6 +144,7 @@ public class LobbyManager : MonoBehaviour
             JoinAllocation joinAllocation = await JoinRelay(joinRelayCode);
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
 
+            //start user as client
             NetworkManager.Singleton.StartClient();
         }
         catch (LobbyServiceException e)
@@ -139,6 +157,7 @@ public class LobbyManager : MonoBehaviour
     {
         try
         {
+            //find lobby by code
             joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
 
             // join relay
@@ -146,7 +165,7 @@ public class LobbyManager : MonoBehaviour
             JoinAllocation joinAllocation = await JoinRelay(joinRelayCode);
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
 
-
+            //start user as client
             NetworkManager.Singleton.StartClient();
         }
         catch (LobbyServiceException e)
@@ -157,6 +176,7 @@ public class LobbyManager : MonoBehaviour
 
     public Lobby getJoinedLobby()
     {
+        //return lobby
         return joinedLobby;
     }
 
@@ -167,6 +187,7 @@ public class LobbyManager : MonoBehaviour
 
     public void HandleHeartbeat()
     {
+        //keep lobby alive before timeout
         if (IsLobbyHost())
         {
             heartbeatTimer -= Time.deltaTime;
@@ -182,11 +203,13 @@ public class LobbyManager : MonoBehaviour
 
     public bool IsLobbyHost()
     {
+        //return if user is lobby host
         return (joinedLobby != null) && (joinedLobby.HostId == AuthenticationService.Instance.PlayerId);
     }
 
     public async void LeaveLobby()
     {
+        //remove player from lobby
         if (joinedLobby != null)
         {
             try
@@ -203,6 +226,7 @@ public class LobbyManager : MonoBehaviour
 
     public void DeleteLobby()
     {
+        //delete the lobby when it is no longer in use
         if (joinedLobby != null)
         {
             try

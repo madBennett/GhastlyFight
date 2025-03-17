@@ -61,6 +61,7 @@ public class ProjectialBehavoir : NetworkBehaviour
         //subtract from total
         numProjectials -= 1;
 
+        //despawn and destroy object
         NetworkObject.Despawn(true);
         Destroy(gameObject);
     }

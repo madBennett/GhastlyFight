@@ -15,10 +15,13 @@ public class LobbyUiControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //get lobby manager
         lobbyManager = LobbyManager.LobbyManagerInstance;
 
+        //get the joined lobby
         joinedLobby = lobbyManager.getJoinedLobby();
 
+        //display lobby information
         lobbyName.text = "Lobby Name: " + joinedLobby.Name;
         lobbyCode.text = "Lobby Code: " + joinedLobby.LobbyCode;
     }

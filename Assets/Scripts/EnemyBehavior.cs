@@ -52,7 +52,6 @@ public class EnemyBehavior : NetworkBehaviour
     // Start is called before the first frame update
     public override void OnNetworkSpawn()
     {
-        Debug.Log("SPAWNED ENEMY");
         //set health
         curHealth.Value = maxHealth;
         healthBar.setMaxValue(maxHealth);
@@ -62,6 +61,7 @@ public class EnemyBehavior : NetworkBehaviour
         lastAttackTime = Time.time;
         lastMoveTime = Time.time;
 
+        //move to a random pos to start
         Move();
     }
     
@@ -80,6 +80,7 @@ public class EnemyBehavior : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        //only remain active in phase 1 and 2
         if (GameManager.gameState == GameStates.GAME_PHASE1 
             || GameManager.gameState == GameStates.GAME_PHASE2)
         {
@@ -141,7 +142,6 @@ public class EnemyBehavior : NetworkBehaviour
         enemyProjectial.damageAmount = damageAmount * damageUpAmount;
         enemyProjectial.speed *= damageUpAmount;
         enemyProjectial.ownerId = id;
-
     }
 
     public void Move()
@@ -194,10 +194,7 @@ public class EnemyBehavior : NetworkBehaviour
     [ServerRpc]
     public void DeathServerRPC()
     {
-        //
-
-        Debug.Log("DEATH");
-
+        //change game state to propper state - where players will fight each other
         GameManager.gameState = GameStates.GAME_PHASE3;
 
         //play death animation and sound
@@ -232,6 +229,7 @@ public class EnemyBehavior : NetworkBehaviour
     [ClientRpc]
     private void PlayAudioClientRPC(AudioType audioType, float volume)
     {
+        //Player proper audio
         switch(audioType)
         {
             case AudioType.ATTACK:

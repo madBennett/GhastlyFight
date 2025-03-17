@@ -29,7 +29,7 @@ public class PlayerBehavior : NetworkBehaviour
     [SerializeField] private float dashCooldDown = .15f;
     [SerializeField] private float dashTime = 0.1f;
     private bool isDashing = false;
-    public GameObject dashIndicator;
+    public GameObject dashIndicator;//small triagnle to indicate dashing to this player
 
     //for damage
     private bool isVulenerable = true; //varible to prevent damage to player
@@ -79,6 +79,7 @@ public class PlayerBehavior : NetworkBehaviour
         healthBar.setMaxValue(maxHealth);
         curHealth.OnValueChanged += HealthChanged;//subscribe to health change on network varible
 
+        //verify that the dash indicator is not showing
         dashIndicator.SetActive(false);
     }
 
@@ -90,6 +91,7 @@ public class PlayerBehavior : NetworkBehaviour
         //trigger death if players health is too low
         if (newValue <= 0)
         {
+            //verify this function is only called once
             if (!isDead)
             {
                 Death();
@@ -104,9 +106,9 @@ public class PlayerBehavior : NetworkBehaviour
         if (!IsOwner)
             return;
 
+        //only allow interaction if the game is in play or it is in the lobby
         if ((GameManager.gameState != GameStates.WAITING) || (GameManager.gameState != GameStates.GAME_OVER))
         {
-
             //While the player is alive allow to interact with the scene
             if (curHealth.Value > 0)
             {
@@ -190,6 +192,7 @@ public class PlayerBehavior : NetworkBehaviour
     [ServerRpc]
     public void DashServerRPC(float dashSpeed)
     {
+        //increase speed for dash
         currSpeed = dashSpeed;
         PlayAudioClientRPC(AudioType.DASH, volume);
     }
@@ -223,6 +226,7 @@ public class PlayerBehavior : NetworkBehaviour
         if (isVulenerable && !(GameManager.gameState ==  GameStates.LOBBY))
         {
             curHealth.Value -= value;
+            //play sound
             PlayAudioClientRPC(AudioType.HURT, volume);
         }
     }
@@ -233,6 +237,7 @@ public class PlayerBehavior : NetworkBehaviour
         if (curHealth.Value < maxHealth)
         {
             curHealth.Value += value;
+            //play sound
             PlayAudioClientRPC(AudioType.HEAL, volume);
         }
     }
@@ -254,10 +259,6 @@ public class PlayerBehavior : NetworkBehaviour
     }
     public void Death()
     {
-        //
-
-        //play death animation and sound
-        
         //verify the object is spawned
         if (NetworkObject.IsSpawned == false)
         {
@@ -271,15 +272,12 @@ public class PlayerBehavior : NetworkBehaviour
         healthBarText.text = "Player " + (PlayerId + 1) + ": DEAD";
 
         isDead = true;
-
-        //Remove gameobject from scene - removes game over scene as well
-        //NetworkObject.Despawn(true);
-        //Destroy(gameObject);
     }
 
     [ClientRpc]
     private void PlayAudioClientRPC(AudioType audioType, float volume)
     {
+        //play audio based on the type on the client side
         switch (audioType)
         {
             case AudioType.ATTACK:
