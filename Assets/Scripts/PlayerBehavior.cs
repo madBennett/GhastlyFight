@@ -38,6 +38,7 @@ public class PlayerBehavior : NetworkBehaviour
     [SerializeField] private NetworkVariable<float> curHealth = new NetworkVariable<float>(0);
     public float maxHealth = 100f;
     public ValueBar healthBar;
+    private bool isDead = false;
 
     //attacking
     public ProjectialBehavoir projectial; //prefab for player projectial
@@ -89,7 +90,10 @@ public class PlayerBehavior : NetworkBehaviour
         //trigger death if players health is too low
         if (newValue <= 0)
         {
-            Death();
+            if (!isDead)
+            {
+                Death();
+            }
         }
     }
 
